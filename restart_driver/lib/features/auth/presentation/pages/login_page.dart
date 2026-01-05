@@ -595,13 +595,58 @@ class _LoginPageState extends State<LoginPage>
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, SignupMobilePage.routeName,
-                                    arguments: SignupMobilePageArguments(
-                                        type: context.read<AuthBloc>().loginAs,
-                                        mobileOrEmailSignUp: context
-                                            .read<AuthBloc>()
-                                            .selectLoginMethods));
+                                if ((context.read<AuthBloc>().loginAs == 'driver' &&
+                                        context.read<AuthBloc>().isDriverEmailLogin ==
+                                            '1' &&
+                                        context.read<AuthBloc>().isDriverMobileLogin ==
+                                            '1') ||
+                                    (context.read<AuthBloc>().loginAs != 'driver' &&
+                                        context.read<AuthBloc>().isOwnerEmailLogin ==
+                                            '1' &&
+                                        context.read<AuthBloc>().isOwnerMobileLogin ==
+                                            '1')) {
+                                  Navigator.pushNamed(
+                                      context, SignupMobilePage.routeName,
+                                      arguments: SignupMobilePageArguments(
+                                          type:
+                                              context.read<AuthBloc>().loginAs,
+                                          mobileOrEmailSignUp: context
+                                              .read<AuthBloc>()
+                                              .selectLoginMethods));
+                                } else if ((context.read<AuthBloc>().loginAs ==
+                                            'driver' &&
+                                        context.read<AuthBloc>().isDriverEmailLogin ==
+                                            '0' &&
+                                        context.read<AuthBloc>().isDriverMobileLogin ==
+                                            '1') ||
+                                    (context.read<AuthBloc>().loginAs != 'driver' &&
+                                        context.read<AuthBloc>().isOwnerEmailLogin ==
+                                            '0' &&
+                                        context.read<AuthBloc>().isOwnerMobileLogin ==
+                                            '1')) {
+                                  Navigator.pushNamed(
+                                      context, SignupMobilePage.routeName,
+                                      arguments: SignupMobilePageArguments(
+                                          type:
+                                              context.read<AuthBloc>().loginAs,
+                                          mobileOrEmailSignUp: false));
+                                } else if ((context.read<AuthBloc>().loginAs ==
+                                            'driver' &&
+                                        context.read<AuthBloc>().isDriverEmailLogin ==
+                                            '1' &&
+                                        context.read<AuthBloc>().isDriverMobileLogin ==
+                                            '0') ||
+                                    (context.read<AuthBloc>().loginAs != 'driver' &&
+                                        context.read<AuthBloc>().isOwnerEmailLogin ==
+                                            '1' &&
+                                        context.read<AuthBloc>().isOwnerMobileLogin == '0')) {
+                                  Navigator.pushNamed(
+                                      context, SignupMobilePage.routeName,
+                                      arguments: SignupMobilePageArguments(
+                                          type:
+                                              context.read<AuthBloc>().loginAs,
+                                          mobileOrEmailSignUp: true));
+                                }
                               },
                               child: MyText(
                                 text:

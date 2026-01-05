@@ -1303,7 +1303,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get savedCards => 'البطاقات المحفوظة';
 
   @override
-  String get downloadInvoice => 'تنزيل الفاتورة';
+  String get downloadInvoice => 'تحميل الفاتورة';
 
   @override
   String get addInstructions => 'إضافة التعليمات';
@@ -1540,4 +1540,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'تحقق من معرف البريد الإلكتروني الخاص بك';
+
+  @override
+  String get verifyEmailText => 'تأكيد البريد الإلكتروني';
+
+  @override
+  String get deliveryOutStation => 'توصيل خارج المحطة';
+
+  @override
+  String get deliveryRental => 'تأجير التوصيل';
+
+  @override
+  String get deliveryRide => 'رحلة توصيل';
 }

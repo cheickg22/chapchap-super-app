@@ -191,6 +191,8 @@ class ChooseLanguagePage extends StatelessWidget {
     return Center(
       child: CustomButton(
         buttonName: AppLocalizations.of(context)!.confirm,
+        // height: size.width * 0.12,
+        // width: size.width * 0.85,
         width: size.width,
         textSize: 18,
         onTap: () async {

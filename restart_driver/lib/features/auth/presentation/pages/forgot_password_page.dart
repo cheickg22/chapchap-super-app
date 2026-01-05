@@ -161,7 +161,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                                   .copyWith(fontSize: 18),
                                             ),
                                           SizedBox(
-                                            width: size.width * 0.55,
+                                            width: size.width * 0.5,
                                             child: MyText(
                                               text: widget.arg.emailOrMobile,
                                               textStyle: Theme.of(context)
@@ -196,7 +196,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                               .bodyMedium!
                                               .copyWith(
                                                   color: AppColors.primary,
-                                                  fontSize: 12),
+                                                  fontSize: 11),
                                         ),
                                       ),
                                     ],

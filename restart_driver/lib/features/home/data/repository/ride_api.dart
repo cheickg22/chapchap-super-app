@@ -117,6 +117,23 @@ class RideApi {
 
       // Construct waypoints if any
       if (map != 'google_map') {
+        // String wayPoints = '';
+        // if (stops.isNotEmpty) {
+        //   for (var i = 0; i < stops.length; i++) {
+        //     wayPoints =
+        //         "$wayPoints,${stops[i]['longitude']},${stops[i]['latitude']};";
+        //   }
+        // }
+        // Response response = await DioProviderImpl().get(
+        //   ApiEndpoints.getOpenstreetPolyline
+        //       .replaceAll('pick', '$pickLng,$pickLat')
+        //       .replaceAll('drop', '$wayPoints$dropLng,$dropLat'),
+        //   headers: (Platform.isAndroid)
+        //       ? {'X-Android-Package': packageName, 'X-Android-Cert': signKey}
+        //       : {'X-IOS-Bundle-Identifier': packageName},
+        // );
+        // return response;
+
         String wayPoints = '';
         String url = '';
         if (stops.isNotEmpty) {

@@ -718,5 +718,8 @@
             "scheduledRideAt": "Trajet prévu à",
             "biddingRides": "Courses d’enchères",
             "changeEmail": "Changer l’e-mail",
-            "verifyEmailId": "Vérifiez votre adresse e-mail"
+            "verifyEmailId": "Vérifiez votre adresse e-mail",
+            "pleaseAddAddress": "Veuillez ajouter l'adresse",
+            "verifyEmailText": "Vérifier l'adresse e-mail",
+            "downloadInvoice": "Télécharger la facture"
         }

@@ -1575,4 +1575,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'Verifica tu correo electrónico';
+
+  @override
+  String get verifyEmailText => 'Verificar correo electrónico';
+
+  @override
+  String get deliveryOutStation => 'Estación de entrega externa';
+
+  @override
+  String get deliveryRental => 'Alquiler de entrega';
+
+  @override
+  String get deliveryRide => 'Paseo de entrega';
 }

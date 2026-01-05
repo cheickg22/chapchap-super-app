@@ -287,6 +287,7 @@ class PaymentGatewaylistWidget extends StatelessWidget {
                                           .choosenPaymentIndex!]
                                       .url));
                             }
+                            Navigator.pop(context);
                             //  Navigator.push(context, MaterialPageRoute(builder: (context) =>  const WalletHistoryPage()));
                           },
                         ),

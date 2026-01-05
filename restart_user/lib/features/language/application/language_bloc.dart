@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import '../../../common/common.dart';
 import '../../../di/locator.dart';
-// import '../domain/models/language_listing_model.dart';
 import 'usecases/language_usecase.dart';
 
 part 'language_event.dart';
@@ -12,7 +11,6 @@ part 'language_state.dart';
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   int selectedIndex = 0;
   String choosedLanguage = '';
-  // List<LanguageList> languageList = [];
 
   LanguageBloc() : super(LanguageInitialState()) {
     on<LanguageInitialEvent>(storedLocaleLanguage);

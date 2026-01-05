@@ -159,10 +159,9 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   ContactsModel selectedContact = ContactsModel(name: '', number: '');
   List<PreferenceDetails>? preferenceDetailsList;
   List<int> selectedPreferenceDetailsList = [];
+  List<String> selectedPreferenceIconsList = [];
   List<int> selectPreference = [];
   List<RentalPreferenceDetails>? rentalPreferenceDetailsList;
-  // Store preferences per vehicle (keyed by vehicle typeId) so each ETA card
-  // can have its own preference selection.
   Map<dynamic, List<int>> vehiclePreferenceByTypeId = {};
 
   Timer? normalRideTimer;
@@ -218,6 +217,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   MapType get selectedMapType => _selectedMapType;
 
   List<int> tempSelectPreference = [];
+  List<String> tempSelectPreferenceIcons = [];
   final DraggableScrollableController draggableController =
       DraggableScrollableController();
 
@@ -539,6 +539,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
               isOutstationRide: event.arg.isOutstationRide,
               isWithoutDestinationRide:
                   event.arg.isWithoutDestinationRide ?? false,
+              // preferenceId:event.arg.preferenceId!,
             ));
           }
           if ((event.arg.isWithoutDestinationRide != null &&
@@ -558,6 +559,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
               isOutstationRide: event.arg.isOutstationRide,
               isWithoutDestinationRide:
                   event.arg.isWithoutDestinationRide ?? false,
+              // preferenceId: event.arg.preferenceId!
             ));
           }
           markerList.add(Marker(
@@ -1073,10 +1075,10 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
           }
           etaDurationGetStream(etaDetailsList, double.parse(event.picklat),
               double.parse(event.picklng));
+          emit(BookingSuccessState());
         } else {
           emit(EtaNotAvailableState());
         }
-        emit(BookingSuccessState());
       },
     );
   }
@@ -2392,8 +2394,6 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
                 : isMultiTypeVechiles
                     ? sortedEtaDetailsList[selectedVehicleIndex].distance
                     : etaDetailsList[selectedVehicleIndex].distance.toString(),
-            // 'is_pet_available': event.isPetAvailable,
-            // 'is_luggage_available': event.isLuggageAvailable,
             'completed_ride_count': userData!.completedRideCount,
             'ratings': userData!.rating,
             'trip_type': event.isOutstationRide
@@ -2408,7 +2408,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
             'transport_type': event.selectedTransportType,
             'taxi_instruction': instructionsController.text,
             'pick_poc_instruction': requestData!.pickupPocInstruction,
-            'preferences': event.preferences
+            'preferences': event.preferences,
+            'preferences_icon': event.preferencesIcons,
           });
           if (event.scheduleDateTime.isEmpty) {
             isTripStart = true;
@@ -3984,17 +3985,21 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   FutureOr onRidePaymentWebViewUrl(
       OnRidePaymentWebViewUrlEvent event, Emitter<BookingState> emit) async {
     String paymentUrl = '';
+    printWrapped('text 111 ---- ');
     if (event.from == '1') {
+      printWrapped('text 222111 ---- ');
       paymentUrl =
           '${event.url}?amount=${event.money}&payment_for=request&currency=${event.currencySymbol}&user_id=${event.userId.toString()}&request_id=${event.requestId.toString()}';
     }
     final Uri uri = Uri.parse(paymentUrl);
     if (await canLaunchUrl(uri)) {
+      printWrapped('text 3331111 ---- ');
       await launchUrl(
         uri,
         mode: LaunchMode.inAppBrowserView,
       );
     } else {
+      printWrapped('text 444111 ---- ');
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
         const SnackBar(content: Text("Could not open payment page")),
@@ -4015,9 +4020,15 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     if (event.isSelected) {
       if (!tempSelectPreference.contains(event.prefId)) {
         tempSelectPreference.add(event.prefId);
+        tempSelectPreferenceIcons.add(event.prefIcon);
       }
     } else {
-      tempSelectPreference.remove(event.prefId);
+      // tempSelectPreference.remove(event.prefId);
+      final index = tempSelectPreference.indexOf(event.prefId);
+      if (index != -1) {
+        tempSelectPreference.removeAt(index);
+        tempSelectPreferenceIcons.removeAt(index);
+      }
     }
     emit(BookingUpdateState());
   }
@@ -4028,6 +4039,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   ) async {
     selectPreference = List<int>.from(tempSelectPreference);
     selectedPreferenceDetailsList = List<int>.from(tempSelectPreference);
+    selectedPreferenceIconsList = List<String>.from(tempSelectPreferenceIcons);
 
     // Also persist preferences per vehicle (non-rental) so each vehicle card
     // can display its own selection. We key by a stable field: typeId.

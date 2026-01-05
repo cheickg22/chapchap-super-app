@@ -24,6 +24,7 @@ import 'signup_mobile_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/loginPage';
+  // final LoginPageArguments arg;
   const LoginPage({
     super.key,
   });
@@ -451,12 +452,37 @@ class _LoginPageState extends State<LoginPage>
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, SignupMobilePage.routeName,
-                                  arguments: SignupMobilePageArguments(
-                                      mobileOrEmailSignUp: context
+                              if (context.read<AuthBloc>().isUserEmailLogin ==
+                                      '1' &&
+                                  context.read<AuthBloc>().isUserMobileLogin ==
+                                      '1') {
+                                Navigator.pushNamed(
+                                    context, SignupMobilePage.routeName,
+                                    arguments: SignupMobilePageArguments(
+                                        mobileOrEmailSignUp: context
+                                            .read<AuthBloc>()
+                                            .selectLoginMethods));
+                              } else if (context
                                           .read<AuthBloc>()
-                                          .selectLoginMethods));
+                                          .isUserEmailLogin ==
+                                      '1' &&
+                                  context.read<AuthBloc>().isUserMobileLogin ==
+                                      '0') {
+                                Navigator.pushNamed(
+                                    context, SignupMobilePage.routeName,
+                                    arguments: SignupMobilePageArguments(
+                                        mobileOrEmailSignUp: true));
+                              } else if (context
+                                          .read<AuthBloc>()
+                                          .isUserEmailLogin ==
+                                      '0' &&
+                                  context.read<AuthBloc>().isUserMobileLogin ==
+                                      '1') {
+                                Navigator.pushNamed(
+                                    context, SignupMobilePage.routeName,
+                                    arguments: SignupMobilePageArguments(
+                                        mobileOrEmailSignUp: false));
+                              }
                             },
                             child: MyText(
                               text: '${AppLocalizations.of(context)!.signup} ',

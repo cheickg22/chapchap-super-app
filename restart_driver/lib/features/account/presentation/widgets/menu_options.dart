@@ -53,9 +53,6 @@ class MenuOptions extends StatelessWidget {
                     if (icon != null)
                       Icon(
                         icon,
-                        // color: Theme.of(context).brightness == Brightness.dark
-                        //     ? AppColors.hintColor
-                        //     : AppColors.hintColor,
                         color: Theme.of(context).hintColor,
                       ),
                     if (imagePath != null)

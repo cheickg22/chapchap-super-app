@@ -499,5 +499,10 @@
    "preferences": "Üstünlüklər",
    "planYourRide": "Səyahətinizi planlaşdırın",
    "changeEmail": "E-poçtu dəyiş",
-   "verifyEmailId": "E-poçt ünvanınızı doğrulayın"
+   "verifyEmailId": "E-poçt ünvanınızı doğrulayın",
+   "verifyEmailText": "E-poçtu təsdiqləyin",
+   "downloadInvoice": "Fakturanı yüklə",
+   "deliveryOutStation": "Çatdırılma OutStation",
+            "deliveryRental": "Çatdırılma İcarəsi",
+            "deliveryRide": "Çatdırılma Ride"
         }

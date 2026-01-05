@@ -121,4 +121,7 @@ class ApiEndpoints {
 //referal
   static String referralResponse = 'api/v1/common/referral/referral-condition';
   static String referalHistory = 'api/v1/common/referral/history';
+
+  //downloadInvoice
+  static String downloadInvoiceUser = 'api/v1/user/download-invoice/';
 }

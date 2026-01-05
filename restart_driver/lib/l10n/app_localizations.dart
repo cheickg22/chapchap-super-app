@@ -4417,6 +4417,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verify your email id'**
   String get verifyEmailId;
+
+  /// No description provided for @pleaseAddAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add address'**
+  String get pleaseAddAddress;
+
+  /// No description provided for @verifyEmailText.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Email'**
+  String get verifyEmailText;
 }
 
 class _AppLocalizationsDelegate

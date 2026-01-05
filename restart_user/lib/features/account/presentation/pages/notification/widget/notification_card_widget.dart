@@ -46,11 +46,6 @@ class NotificationCardWidget extends StatelessWidget {
                   color: AppColors.primary,
                   fit: BoxFit.contain,
                 ),
-                // child: Icon(
-                //   Icons.notifications,
-                //   color: Theme.of(context).primaryColorDark,
-                //   size: 18,
-                // ),
               ),
               SizedBox(width: size.width * 0.03),
 

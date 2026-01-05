@@ -1,12 +1,22 @@
 class FleetDashboardModel {
   bool success;
   FleetData data;
+  // OverallEarningData overallEarnings;
+  // List<FleetEarningsData> fleetEarnings;
+  // List<FleetDriverData> fleetDriverData;
   FleetDashboardModel({required this.success, required this.data});
 
   factory FleetDashboardModel.fromJson(Map<String, dynamic> json) {
+    // List<DriverData> data = [];
+    // if(json['data'] != null){
+    // json['data'].forEach((e){
+    //            data.add(DriverData.fromJson(e));
+    //     });
+    // }
     return FleetDashboardModel(
       success: json["success"],
       data: FleetData.fromJson(json['fleet_data']),
+      // overallEarnings: OverallEarningData.fromJson(json['overallEarnings']),
     );
   }
 }

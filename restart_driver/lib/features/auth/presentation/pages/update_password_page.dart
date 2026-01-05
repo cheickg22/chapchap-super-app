@@ -40,10 +40,12 @@ class UpdatePasswordPage extends StatelessWidget {
             final role = await AppSharedPreference.getUserType();
             if (!context.mounted) return;
             Navigator.pushNamedAndRemoveUntil(
-              context,
-              LoginPage.routeName,
-              (route) => false,
+              context, LoginPage.routeName, (route) => false,
+              // arguments: AuthPageArguments(type: role)
             );
+            // Navigator.pushNamedAndRemoveUntil(
+            //     context, AuthPage.routeName, (route) => false,
+            //     arguments: AuthPageArguments(type: role));
           }
         },
         child: BlocBuilder<AuthBloc, AuthState>(

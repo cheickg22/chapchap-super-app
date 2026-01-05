@@ -299,12 +299,12 @@ class RideRepositoryImpl implements RideRepository {
 
       printWrapped('Response : ${response.data}');
 
-      ///  NULL OR EMPTY RESPONSE
+      /// 🔴 NULL OR EMPTY RESPONSE
       if (response.data == null || response.data.toString().isEmpty) {
         return Left(GetDataFailure(message: 'Bad request'));
       }
 
-      ///  UNAUTHORIZED
+      /// 🔴 UNAUTHORIZED
       if (response.statusCode == 401) {
         return Left(
           GetDataFailure(
@@ -314,7 +314,7 @@ class RideRepositoryImpl implements RideRepository {
         );
       }
 
-      ///  NON-200 STATUS
+      /// 🔴 NON-200 STATUS
       if (response.statusCode != 200) {
         return Left(
           GetDataFailure(
@@ -324,7 +324,7 @@ class RideRepositoryImpl implements RideRepository {
         );
       }
 
-      ///  GOOGLE MAP FLOW
+      /// ✅ GOOGLE MAP FLOW
       if (mapType == 'google_map') {
         if (response.data is Map<String, dynamic>) {
           /// Google error response
@@ -357,7 +357,7 @@ class RideRepositoryImpl implements RideRepository {
         }
       }
 
-      ///  OPENSTREET MAP FLOW
+      /// ✅ OPENSTREET MAP FLOW
       else {
         if (response.data is Map<String, dynamic>) {
           geocodingLatLngModel = GeocodingLatLngModel.fromJson({
@@ -375,17 +375,17 @@ class RideRepositoryImpl implements RideRepository {
       return Right(geocodingLatLngModel);
     }
 
-    ///  NETWORK ERROR
+    /// 🔴 NETWORK ERROR
     on FetchDataException catch (e) {
       return Left(GetDataFailure(message: e.message));
     }
 
-    ///  BAD INPUT
+    /// 🔴 BAD INPUT
     on BadRequestException catch (e) {
       return Left(InPutDataFailure(message: e.message));
     }
 
-    ///  UNKNOWN ERROR
+    /// 🔴 UNKNOWN ERROR
     catch (e) {
       return Left(GetDataFailure(message: e.toString()));
     }
@@ -741,6 +741,14 @@ class RideRepositoryImpl implements RideRepository {
           rideType: rideType,
           distance: distance,
           duration: duration);
+      printWrapped('Response pickLat : ${pickLat.toString()}');
+      printWrapped('Response pickLng : ${pickLng.toString()}');
+      printWrapped('Response dropLat : ${dropLat.toString()}');
+      printWrapped('Response dropLng : ${dropLng.toString()}');
+      printWrapped('Response rideType : ${rideType.toString()}');
+      printWrapped('Response distance : ${distance.toString()}');
+      printWrapped('Response duration : ${duration.toString()}');
+      printWrapped('Response : ${response.data}');
       printWrapped('Response : ${response.data}');
       if (response.data == null || response.data == '') {
         return Left(GetDataFailure(message: 'User bad request'));
@@ -757,8 +765,8 @@ class RideRepositoryImpl implements RideRepository {
         } else {
           etaDetailsModel = EtaDetailsModel.fromJson({
             'success': true,
-            'price': '${response.data['data']['total']}',
-            'currency': response.data['data']['currency']
+            'price': '${response.data['data'][0]['total']}',
+            'currency': response.data['data'][0]['currency']
           });
         }
       }

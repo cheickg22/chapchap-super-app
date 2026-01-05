@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element_parameter, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -228,7 +228,7 @@ class _KeyButton extends StatelessWidget {
   final String? label;
   final IconData? icon;
   final VoidCallback onTap;
-  const _KeyButton({super.key, this.label, this.icon, required this.onTap});
+  const _KeyButton({this.label, this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

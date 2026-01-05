@@ -300,7 +300,7 @@ class HistoryCardWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   MyText(
-                    text: (history.isRoundTrip?.isNotEmpty == true)
+                    text: (history.isRoundTrip == 1)
                         ? AppLocalizations.of(context)!.roundTrip
                         : AppLocalizations.of(context)!.oneWayTrip,
                     textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -309,7 +309,7 @@ class HistoryCardWidget extends StatelessWidget {
                           color: AppColors.yellowColor,
                         ),
                   ),
-                  if (history.isRoundTrip?.isNotEmpty == true)
+                  if (history.isRoundTrip == 1)
                     const Padding(
                       padding: EdgeInsets.only(left: 4),
                       child: Icon(Icons.import_export,

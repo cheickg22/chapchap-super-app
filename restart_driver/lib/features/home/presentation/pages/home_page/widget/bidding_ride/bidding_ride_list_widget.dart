@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restart_tagxi/common/common.dart';
@@ -98,16 +99,6 @@ class _BiddingRideListWidgetState extends State<BiddingRideListWidget> {
               : 1;
 
           return Container(
-            // decoration: BoxDecoration(
-            //     color: Theme.of(context).scaffoldBackgroundColor,
-            //     boxShadow: const [
-            //       BoxShadow(
-            //         blurRadius: 4,
-            //         color: Color.fromARGB(66, 27, 24, 24),
-            //         offset: Offset(0, 2),
-            //       ),
-            //     ],
-            //     borderRadius: BorderRadius.circular(12)),
             height: size.height * 0.85 - size.width * 0.2,
             width: size.width * 0.9,
             margin: EdgeInsets.all(size.width * 0.05),
@@ -296,6 +287,10 @@ class _BiddingRideListWidgetState extends State<BiddingRideListWidget> {
                               .rideList
                               .asMap()
                               .map((key, value) {
+                                final List preferenceIcons = context
+                                        .read<HomeBloc>()
+                                        .rideList[key]['preferences_icon'] ??
+                                    [];
                                 List stops = [];
                                 if (context.read<HomeBloc>().rideList[key]
                                         ['trip_stops'] !=
@@ -319,479 +314,519 @@ class _BiddingRideListWidgetState extends State<BiddingRideListWidget> {
                                       ['pick_lng'],
                                   unit: userData?.distanceUnit ?? 'km',
                                 );
+                                context.read<HomeBloc>().distanceValue = dist;
+                                const double distanceToleranceKm = 0.5;
+
+                                final double selectedKm =
+                                    context.read<HomeBloc>().distanceBetween ??
+                                        0;
+
+                                final bool isWithinRange =
+                                    dist <= (selectedKm + distanceToleranceKm);
                                 return MapEntry(
                                     key,
-                                    Container(
-                                      padding:
-                                          EdgeInsets.all(size.width * 0.05),
-                                      margin: EdgeInsets.only(
-                                          bottom: size.width * 0.05),
-                                      width: size.width * 0.9,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              width: 1,
-                                              color: AppColors.borderColor)),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                width: size.width * 0.1,
-                                                height: size.width * 0.1,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(context
-                                                                .read<HomeBloc>()
-                                                                .rideList[key]
-                                                            ['user_img']),
-                                                        fit: BoxFit.cover)),
-                                              ),
-                                              SizedBox(
-                                                  width: size.width * 0.025),
-                                              Expanded(
-                                                  child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  MyText(
-                                                    text: context
-                                                            .read<HomeBloc>()
-                                                            .rideList[key]
-                                                        ['user_name'],
-                                                    textStyle: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(fontSize: 16),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Icon(
-                                                            Icons.star,
-                                                            size: 12.5,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColorDark,
-                                                          ),
-                                                          MyText(
+                                    isWithinRange
+                                        ? Container(
+                                            padding: EdgeInsets.all(
+                                                size.width * 0.05),
+                                            margin: EdgeInsets.only(
+                                                bottom: size.width * 0.05),
+                                            width: size.width * 0.9,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                        AppColors.borderColor)
+                                                // color: AppColors.secondary
+                                                //     .withAlpha((0.4 * 255).toInt())
+                                                ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: size.width * 0.1,
+                                                      height: size.width * 0.1,
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(context
+                                                                      .read<
+                                                                          HomeBloc>()
+                                                                      .rideList[key]
+                                                                  ['user_img']),
+                                                              fit: BoxFit
+                                                                  .cover)),
+                                                    ),
+                                                    SizedBox(
+                                                        width:
+                                                            size.width * 0.025),
+                                                    Expanded(
+                                                        child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        MyText(
+                                                          text: context
+                                                                  .read<HomeBloc>()
+                                                                  .rideList[key]
+                                                              ['user_name'],
+                                                          textStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          16),
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.star,
+                                                                  size: 12.5,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColorDark,
+                                                                ),
+                                                                MyText(
+                                                                  text:
+                                                                      '${context.read<HomeBloc>().rideList[key]['ratings']}',
+                                                                  textStyle: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodySmall!
+                                                                      .copyWith(
+                                                                          color: AppColors
+                                                                              .black,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            if (context.read<HomeBloc>().rideList[
+                                                                            key]
+                                                                        [
+                                                                        'completed_ride_count'] !=
+                                                                    '0' &&
+                                                                context.read<HomeBloc>().rideList[
+                                                                            key]
+                                                                        [
+                                                                        'completed_ride_count'] !=
+                                                                    0)
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  const SizedBox(
+                                                                      width: 5),
+                                                                  Container(
+                                                                    width: 1,
+                                                                    height: 20,
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .disabledColor
+                                                                        .withAlpha((0.5 *
+                                                                                255)
+                                                                            .toInt()),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                      width: 5),
+                                                                  SizedBox(
+                                                                    width: size
+                                                                            .width *
+                                                                        0.125,
+                                                                    child:
+                                                                        MyText(
+                                                                      text:
+                                                                          '${context.read<HomeBloc>().rideList[key]['completed_ride_count']} ${AppLocalizations.of(context)!.trips}',
+                                                                      textStyle: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .bodySmall!
+                                                                          .copyWith(
+                                                                              color: AppColors.black,
+                                                                              fontWeight: FontWeight.w500),
+                                                                      maxLines:
+                                                                          2,
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )),
+                                                    SizedBox(
+                                                      width: size.width * 0.05,
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        MyText(
                                                             text:
-                                                                '${context.read<HomeBloc>().rideList[key]['ratings']}',
+                                                                '${context.read<HomeBloc>().rideList[key]['currency']} ${context.read<HomeBloc>().rideList[key]['price']}',
                                                             textStyle: Theme.of(
                                                                     context)
                                                                 .textTheme
-                                                                .bodySmall!
+                                                                .bodyLarge!
                                                                 .copyWith(
-                                                                    color: AppColors
-                                                                        .black,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      if (context
-                                                                      .read<
-                                                                          HomeBloc>()
-                                                                      .rideList[key]
-                                                                  [
-                                                                  'completed_ride_count'] !=
-                                                              '0' &&
-                                                          context
-                                                                      .read<
-                                                                          HomeBloc>()
-                                                                      .rideList[key]
-                                                                  [
-                                                                  'completed_ride_count'] !=
-                                                              0)
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            const SizedBox(
-                                                                width: 5),
-                                                            Container(
-                                                              width: 1,
-                                                              height: 20,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .disabledColor
-                                                                  .withAlpha((0.5 *
-                                                                          255)
-                                                                      .toInt()),
-                                                            ),
-                                                            const SizedBox(
-                                                                width: 5),
-                                                            MyText(
-                                                              text:
-                                                                  '${context.read<HomeBloc>().rideList[key]['completed_ride_count']} ${AppLocalizations.of(context)!.trips}',
-                                                              textStyle: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodySmall!
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .black,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )),
-                                              SizedBox(
-                                                width: size.width * 0.05,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  MyText(
-                                                      text:
-                                                          '${context.read<HomeBloc>().rideList[key]['currency']} ${context.read<HomeBloc>().rideList[key]['price']}',
-                                                      textStyle:
-                                                          Theme.of(context)
-                                                              .textTheme
-                                                              .bodyLarge!
-                                                              .copyWith(
-                                                                  fontSize:
-                                                                      16)),
-                                                  MyText(
-                                                      text:
-                                                          '${(dist).toStringAsFixed(2)} ${userData?.distanceUnit.toUpperCase() ?? 'KM'} ${AppLocalizations.of(context)!.away}',
-                                                      textStyle: Theme.of(
-                                                              context)
-                                                          .textTheme
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .hintColor,
-                                                              fontSize: 12))
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: size.width * 0.05,
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.9,
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  height: size.width * 0.05,
-                                                  width: size.width * 0.05,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color:
-                                                              AppColors.green),
-                                                  alignment: Alignment.center,
-                                                  child: Container(
-                                                    height: size.width * 0.025,
-                                                    width: size.width * 0.025,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: AppColors
-                                                                .green),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: size.width * 0.025,
-                                                ),
-                                                Expanded(
-                                                    child: MyText(
-                                                  text: context
-                                                          .read<HomeBloc>()
-                                                          .rideList[key]
-                                                      ['pick_address'],
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                ))
-                                              ],
-                                            ),
-                                          ),
-                                          (stops.isEmpty &&
-                                                  context
-                                                              .read<HomeBloc>()
-                                                              .rideList[key]
-                                                          ['drop_address'] !=
-                                                      '')
-                                              ? Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: size.width * 0.03,
-                                                    ),
-                                                    SizedBox(
-                                                      width: size.width * 0.8,
-                                                      child: Row(
-                                                        children: [
-                                                          // const DropIcon(),
-                                                          Image.asset(
-                                                            AppImages.mapPinNew,
-                                                            width: size.width *
-                                                                0.05,
-                                                          ),
-                                                          SizedBox(
-                                                            width: size.width *
-                                                                0.025,
-                                                          ),
-                                                          Expanded(
-                                                              child: MyText(
-                                                            text: context
-                                                                    .read<
-                                                                        HomeBloc>()
-                                                                    .rideList[key]
-                                                                [
-                                                                'drop_address'],
+                                                                    fontSize:
+                                                                        16)),
+                                                        MyText(
+                                                            text:
+                                                                '${(dist).toStringAsFixed(2)} ${userData?.distanceUnit.toUpperCase() ?? 'KM'} ${AppLocalizations.of(context)!.away}',
                                                             textStyle: Theme.of(
                                                                     context)
                                                                 .textTheme
                                                                 .bodyMedium!
                                                                 .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .hintColor,
                                                                     fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                          ))
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              : (stops.isNotEmpty)
-                                                  ? Column(
-                                                      children: [
-                                                        for (var i = 0;
-                                                            i < stops.length;
-                                                            i++)
-                                                          Column(
-                                                            children: [
-                                                              SizedBox(
-                                                                height:
-                                                                    size.width *
-                                                                        0.03,
-                                                              ),
-                                                              SizedBox(
-                                                                width:
-                                                                    size.width *
-                                                                        0.8,
-                                                                child: Row(
-                                                                  children: [
-                                                                    Image.asset(
-                                                                      AppImages
-                                                                          .mapPinNew,
-                                                                      height: size
-                                                                              .width *
-                                                                          0.05,
-                                                                      width: size
-                                                                              .width *
-                                                                          0.05,
-                                                                      fit: BoxFit
-                                                                          .contain,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: size
-                                                                              .width *
-                                                                          0.025,
-                                                                    ),
-                                                                    Expanded(
-                                                                        child:
-                                                                            MyText(
-                                                                      text: stops[
-                                                                              i]
-                                                                          [
-                                                                          'address'],
-                                                                      textStyle: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .bodyMedium!
-                                                                          .copyWith(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w500),
-                                                                    ))
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
+                                                                        12))
                                                       ],
                                                     )
-                                                  : Container(),
-                                          SizedBox(
-                                            height: size.width * 0.05,
-                                          ),
-                                          if (context
-                                                          .read<HomeBloc>()
-                                                          .rideList[key]
-                                                      ["is_pet_available"] ==
-                                                  true ||
-                                              context
-                                                          .read<HomeBloc>()
-                                                          .rideList[key][
-                                                      "is_luggage_available"] ==
-                                                  true)
-                                            Column(
-                                              children: [
+                                                  ],
+                                                ),
                                                 SizedBox(
-                                                    height: size.width * 0.02),
+                                                  height: size.width * 0.05,
+                                                ),
                                                 SizedBox(
                                                   width: size.width * 0.9,
                                                   child: Row(
                                                     children: [
-                                                      MyText(
-                                                          text:
-                                                              '${AppLocalizations.of(context)!.preferences} :- ',
-                                                          textStyle: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodyMedium!
-                                                              .copyWith(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColorDark,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600)),
-                                                      if (context
-                                                                  .read<HomeBloc>()
-                                                                  .rideList[key]
-                                                              [
-                                                              "is_pet_available"] ==
-                                                          true)
-                                                        Icon(
-                                                          Icons.pets,
-                                                          size:
-                                                              size.width * 0.05,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColorDark,
+                                                      Container(
+                                                        height:
+                                                            size.width * 0.05,
+                                                        width:
+                                                            size.width * 0.05,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: AppColors
+                                                                    .green),
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Container(
+                                                          height: size.width *
+                                                              0.025,
+                                                          width: size.width *
+                                                              0.025,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  color: AppColors
+                                                                      .green),
                                                         ),
-                                                      if (context
-                                                                  .read<HomeBloc>()
-                                                                  .rideList[key]
-                                                              [
-                                                              "is_luggage_available"] ==
-                                                          true)
-                                                        Icon(
-                                                          Icons.luggage,
-                                                          size:
-                                                              size.width * 0.05,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColorDark,
-                                                        )
+                                                      ),
+                                                      SizedBox(
+                                                        width:
+                                                            size.width * 0.025,
+                                                      ),
+                                                      Expanded(
+                                                          child: MyText(
+                                                        text: context
+                                                                .read<HomeBloc>()
+                                                                .rideList[key]
+                                                            ['pick_address'],
+                                                        textStyle: Theme.of(
+                                                                context)
+                                                            .textTheme
+                                                            .bodyMedium!
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ))
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                    height: size.width * 0.02),
-                                              ],
-                                            ),
-                                          SizedBox(
-                                            width: size.width * 0.8,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                CustomButton(
-                                                  buttonName:
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .decline,
-                                                  textSize: 18,
-                                                  onTap: () {
-                                                    context.read<HomeBloc>().add(
-                                                        DeclineBidRideEvent(
-                                                            id: context
+                                                (stops.isEmpty &&
+                                                        context
                                                                     .read<
                                                                         HomeBloc>()
                                                                     .rideList[key]
                                                                 [
-                                                                'request_id']));
-                                                  },
-                                                  width: size.width * 0.32,
-                                                  buttonColor: AppColors.red,
+                                                                'drop_address'] !=
+                                                            '')
+                                                    ? Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            height: size.width *
+                                                                0.03,
+                                                          ),
+                                                          SizedBox(
+                                                            width: size.width *
+                                                                0.8,
+                                                            child: Row(
+                                                              children: [
+                                                                // const DropIcon(),
+                                                                Image.asset(
+                                                                  AppImages
+                                                                      .mapPinNew,
+                                                                  width:
+                                                                      size.width *
+                                                                          0.05,
+                                                                ),
+                                                                SizedBox(
+                                                                  width:
+                                                                      size.width *
+                                                                          0.025,
+                                                                ),
+                                                                Expanded(
+                                                                    child:
+                                                                        MyText(
+                                                                  text: context
+                                                                          .read<
+                                                                              HomeBloc>()
+                                                                          .rideList[key]
+                                                                      [
+                                                                      'drop_address'],
+                                                                  textStyle: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium!
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                ))
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : (stops.isNotEmpty)
+                                                        ? Column(
+                                                            children: [
+                                                              for (var i = 0;
+                                                                  i <
+                                                                      stops
+                                                                          .length;
+                                                                  i++)
+                                                                Column(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      height: size
+                                                                              .width *
+                                                                          0.03,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width: size
+                                                                              .width *
+                                                                          0.8,
+                                                                      child:
+                                                                          Row(
+                                                                        children: [
+                                                                          Image
+                                                                              .asset(
+                                                                            AppImages.mapPinNew,
+                                                                            height:
+                                                                                size.width * 0.05,
+                                                                            width:
+                                                                                size.width * 0.05,
+                                                                            fit:
+                                                                                BoxFit.contain,
+                                                                          ),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                size.width * 0.025,
+                                                                          ),
+                                                                          Expanded(
+                                                                              child: MyText(
+                                                                            text:
+                                                                                stops[i]['address'],
+                                                                            textStyle:
+                                                                                Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                                                                          ))
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                            ],
+                                                          )
+                                                        : Container(),
+                                                SizedBox(
+                                                  height: size.width * 0.05,
                                                 ),
-                                                CustomButton(
-                                                  buttonName:
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .accept,
-                                                  textSize: 18,
-                                                  onTap: () {
-                                                    context.read<HomeBloc>().add(ShowBidRideEvent(
-                                                        id: context
-                                                                .read<HomeBloc>()
-                                                                .rideList[key]
-                                                            ['request_id'],
-                                                        pickLat: context
-                                                                .read<HomeBloc>()
-                                                                .rideList[key]
-                                                            ['pick_lat'],
-                                                        pickLng: context
-                                                                .read<HomeBloc>()
-                                                                .rideList[key]
-                                                            ['pick_lng'],
-                                                        dropLat: context
+                                                if (preferenceIcons
+                                                    .isNotEmpty) ...[
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      MyText(
+                                                        text:
+                                                            '${AppLocalizations.of(context)!.preferences} :- ',
+                                                        textStyle:
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        14),
+                                                      ),
+                                                      Expanded(
+                                                        child:
+                                                            preferenceIconsRow(
+                                                          context: context,
+                                                          icons:
+                                                              preferenceIcons,
+                                                          size: size.width,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: size.width * 0.025,
+                                                  ),
+                                                ],
+                                                if (context
                                                             .read<HomeBloc>()
-                                                            .rideList[key]
-                                                                ['drop_lat']
-                                                            .toDouble(),
-                                                        dropLng: context
-                                                            .read<HomeBloc>()
-                                                            .rideList[key]
-                                                                ['drop_lng']
-                                                            .toDouble(),
-                                                        stops: stops,
-                                                        pickAddress: context
-                                                                .read<HomeBloc>()
-                                                                .rideList[key]['pick_address'] ??
-                                                            '',
-                                                        dropAddress: context.read<HomeBloc>().rideList[key]['drop_address'] ?? '',
-                                                        acceptedRideFare: context.read<HomeBloc>().rideList[key]['base_price'] ?? '0',
-                                                        polyString: context.read<HomeBloc>().rideList[key]['polyline'] ?? '',
-                                                        distance: context.read<HomeBloc>().rideList[key]['distance'] ?? '0',
-                                                        duration: context.read<HomeBloc>().rideList[key]['duration'] ?? '0',
-                                                        isOutstationRide: false,
-                                                        isNormalBidRide: true));
-                                                    if (Navigator.of(context)
-                                                        .canPop()) {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    }
-                                                  },
-                                                  width: size.width * 0.32,
-                                                  buttonColor:
-                                                      AppColors.primary,
-                                                ),
+                                                            .rideList[key][
+                                                        'pick_poc_instruction'] !=
+                                                    '') ...[
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      MyText(
+                                                          text:
+                                                              '${AppLocalizations.of(context)!.instruction} :- ',
+                                                          textStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith()),
+                                                      Expanded(
+                                                        child: MyText(
+                                                          text: context
+                                                              .read<HomeBloc>()
+                                                              .rideList[key][
+                                                                  'pick_poc_instruction']
+                                                              .toString(),
+                                                          textStyle:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 5,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: size.width * 0.02,
+                                                  ),
+                                                ],
+                                                SizedBox(
+                                                  width: size.width * 0.8,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      CustomButton(
+                                                        buttonName:
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .decline,
+                                                        textSize: 18,
+                                                        onTap: () {
+                                                          context
+                                                              .read<HomeBloc>()
+                                                              .add(DeclineBidRideEvent(
+                                                                  id: context
+                                                                          .read<
+                                                                              HomeBloc>()
+                                                                          .rideList[key]
+                                                                      [
+                                                                      'request_id']));
+                                                        },
+                                                        width:
+                                                            size.width * 0.32,
+                                                        buttonColor:
+                                                            AppColors.red,
+                                                      ),
+                                                      CustomButton(
+                                                        buttonName:
+                                                            AppLocalizations.of(
+                                                                    context)!
+                                                                .accept,
+                                                        textSize: 18,
+                                                        onTap: () {
+                                                          context.read<HomeBloc>().add(ShowBidRideEvent(
+                                                              id: context.read<HomeBloc>().rideList[key][
+                                                                  'request_id'],
+                                                              pickLat: context.read<HomeBloc>().rideList[key]
+                                                                  ['pick_lat'],
+                                                              pickLng: context
+                                                                      .read<
+                                                                          HomeBloc>()
+                                                                      .rideList[key]
+                                                                  ['pick_lng'],
+                                                              dropLat: context
+                                                                  .read<
+                                                                      HomeBloc>()
+                                                                  .rideList[key]
+                                                                      [
+                                                                      'drop_lat']
+                                                                  .toDouble(),
+                                                              dropLng: context
+                                                                  .read<HomeBloc>()
+                                                                  .rideList[key]['drop_lng']
+                                                                  .toDouble(),
+                                                              stops: stops,
+                                                              pickAddress: context.read<HomeBloc>().rideList[key]['pick_address'] ?? '',
+                                                              dropAddress: context.read<HomeBloc>().rideList[key]['drop_address'] ?? '',
+                                                              acceptedRideFare: context.read<HomeBloc>().rideList[key]['base_price'] ?? '0',
+                                                              polyString: context.read<HomeBloc>().rideList[key]['polyline'] ?? '',
+                                                              distance: context.read<HomeBloc>().rideList[key]['distance'] ?? '0',
+                                                              duration: context.read<HomeBloc>().rideList[key]['duration'] ?? '0',
+                                                              isOutstationRide: false,
+                                                              isNormalBidRide: true));
+                                                          if (Navigator.of(
+                                                                  context)
+                                                              .canPop()) {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          }
+                                                        },
+                                                        width:
+                                                            size.width * 0.32,
+                                                        buttonColor:
+                                                            AppColors.primary,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           )
-                                        ],
-                                      ),
-                                    ));
+                                        : const SizedBox.shrink());
                               })
                               .values
                               .toList())
@@ -818,6 +853,55 @@ class _BiddingRideListWidgetState extends State<BiddingRideListWidget> {
           );
         },
       ),
+    );
+  }
+
+  Widget preferenceIconsRow({
+    required BuildContext context,
+    required List icons,
+    required double size,
+  }) {
+    if (icons.isEmpty) return const SizedBox();
+
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: List.generate(icons.length, (index) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: AppColors.white,
+              padding: const EdgeInsets.all(1),
+              child: CachedNetworkImage(
+                imageUrl: icons[index].toString(),
+                fit: BoxFit.cover,
+                width: 15,
+                height: 15,
+                placeholder: (_, __) => const SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+                errorWidget: (_, __, ___) => const Icon(
+                  Icons.error,
+                  size: 14,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+
+            /// 👇 COMMA (except last item)
+            if (index != icons.length - 1)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Text(
+                  ',',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 }

@@ -68,9 +68,6 @@ class NavigationWidget extends StatelessWidget {
                                 onTap: () async {
                                   if (userData!.onTripRequest!.isTripStart ==
                                       0) {
-                                    // context.read<HomeBloc>().add(OpenAnotherFeatureEvent(
-                                    //     value:
-                                    //         '${ApiEndpoints.openMap}${userData!.onTripRequest!.pickLat},${userData!.onTripRequest!.pickLng}'));
                                     if (context
                                             .read<HomeBloc>()
                                             .currentLatLng !=

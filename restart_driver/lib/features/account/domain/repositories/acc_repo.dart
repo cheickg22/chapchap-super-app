@@ -217,4 +217,7 @@ abstract class AccRepository {
   Future<Either<Failure, ReferralResponse>> referalHistory();
 
   Future<Either<Failure, ReferralResponseData>> referalResponse();
+
+  Future<Either<Failure, dynamic>> invoiceDownloadUser(
+      {required String journeyId});
 }

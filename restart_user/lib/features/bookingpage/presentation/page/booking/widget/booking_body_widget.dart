@@ -103,23 +103,39 @@ class _BookingBodyWidgetState extends State<BookingBodyWidget> {
                                     value: MapType.normal,
                                     child: MyText(
                                         text: AppLocalizations.of(context)!
-                                            .normal)),
+                                            .normal,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: AppColors.black))),
                                 PopupMenuItem(
                                     value: MapType.satellite,
                                     child: MyText(
                                         text: AppLocalizations.of(context)!
-                                            .satellite)),
+                                            .satellite,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(color: AppColors.black))),
                                 PopupMenuItem(
                                   value: MapType.terrain,
                                   child: MyText(
-                                      text: AppLocalizations.of(context)!
-                                          .terrain),
+                                      text:
+                                          AppLocalizations.of(context)!.terrain,
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: AppColors.black)),
                                 ),
                                 PopupMenuItem(
                                   value: MapType.hybrid,
                                   child: MyText(
                                       text:
-                                          AppLocalizations.of(context)!.hybrid),
+                                          AppLocalizations.of(context)!.hybrid,
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: AppColors.black)),
                                 ),
                               ],
                             ),

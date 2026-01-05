@@ -131,37 +131,44 @@ class MapAppBarWidget extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.w600)),
                                       )
-                                    : ((((userData!.ownerId == '' && userData!.lowBalance == false) ||
-                                                        (userData!.ownerId != '' &&
-                                                            userData!.vehicleTypeName !=
-                                                                '' &&
-                                                            userData!.lowBalance ==
-                                                                false)) ||
+                                    : ((((userData!.ownerId == '' &&
+                                                        userData!.lowBalance ==
+                                                            false) ||
                                                     (userData!.ownerId != '' &&
-                                                        userData!.vehicleTypeName !=
-                                                            '')) &&
-                                                ((userData!.driverMode == 'subscription' &&
                                                         userData!
-                                                            .isSubscribed! &&
-                                                        !userData!
-                                                            .isExpired!) ||
-                                                    (userData!.driverMode == 'commission' &&
-                                                        !userData!
-                                                            .lowBalance) ||
-                                                    (userData!.driverMode == 'both' &&
-                                                        !userData!
-                                                            .lowBalance)) ||
-                                            (userData!.wallet?.data.amountBalance != null &&
-                                                userData!.wallet!.data.amountBalance >
-                                                    0))
+                                                                .vehicleTypeName !=
+                                                            '' &&
+                                                        userData!.lowBalance ==
+                                                            false)) ||
+                                                (userData!.ownerId != '' &&
+                                                    userData!.vehicleTypeName !=
+                                                        '')) &&
+                                            ((userData!.driverMode ==
+                                                        'subscription' &&
+                                                    userData!.isSubscribed! &&
+                                                    !userData!.isExpired!) ||
+                                                (userData!.driverMode ==
+                                                        'commission' &&
+                                                    !userData!.lowBalance) ||
+                                                (userData!.driverMode ==
+                                                        'both' &&
+                                                    !userData!.lowBalance))
+                                        //  ||
+                                        // (userData!.wallet?.data.amountBalance != null && userData!.wallet!.data.amountBalance > 0)
+                                        )
                                         ? OnlineOfflineWidget(cont: context)
                                         : (userData!.vehicleTypeName == '')
                                             ? FleetNotAssignedWidget(
                                                 cont: context)
-                                            : (userData!.driverMode == 'subscription' &&
-                                                    userData!.hasSubscription != null &&
-                                                    userData!.hasSubscription! &&
-                                                    (userData!.subscription == null || userData!.isExpired!))
+                                            : (userData!.driverMode ==
+                                                        'subscription' &&
+                                                    userData!.hasSubscription !=
+                                                        null &&
+                                                    userData!
+                                                        .hasSubscription! &&
+                                                    (userData!.subscription ==
+                                                            null ||
+                                                        userData!.isExpired!))
                                                 ? (!userData!.isExpired!)
                                                     ? SizedBox(
                                                         width: size.width * 0.6,

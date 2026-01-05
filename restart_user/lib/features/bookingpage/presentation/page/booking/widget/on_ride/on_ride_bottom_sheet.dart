@@ -815,6 +815,7 @@ class OnRideBottomSheet extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+
                                 if ((bookingBloc.requestData!.transportType ==
                                             'taxi' ||
                                         bookingBloc.requestData!.isOutStation ==
@@ -857,6 +858,8 @@ class OnRideBottomSheet extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                // if (bookingBloc.requestData!
+                                //     .requestPreferences.data.isNotEmpty)
                                 if (bookingBloc.requestData != null &&
                                     bookingBloc
                                             .requestData!.requestPreferences !=
@@ -867,7 +870,7 @@ class OnRideBottomSheet extends StatelessWidget {
                                     children: [
                                       MyText(
                                           text:
-                                              '${AppLocalizations.of(context)!.preference} : ',
+                                              '${AppLocalizations.of(context)!.preferences} : ',
                                           textStyle: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
@@ -887,14 +890,14 @@ class OnRideBottomSheet extends StatelessWidget {
                                                   .length;
                                           i++) ...[
                                         Container(
-                                          margin: EdgeInsets.all(
-                                              size.width * 0.0025),
+                                          // margin: EdgeInsets.all(
+                                          //     size.width * 0.0025),
+                                          padding: EdgeInsets.all(
+                                              size.width * 0.005),
                                           width: 16,
                                           height: 16,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Theme.of(context)
-                                                .scaffoldBackgroundColor,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.white,
                                           ),
                                           child: CachedNetworkImage(
                                             imageUrl: bookingBloc
@@ -1022,8 +1025,7 @@ class OnRideBottomSheet extends StatelessWidget {
                                           child: Icon(
                                             Icons.share,
                                             size: size.width * 0.05,
-                                            color: Theme.of(context)
-                                                .primaryColorDark,
+                                            color: AppColors.hintColorGrey,
                                           ),
                                         ),
                                       ),

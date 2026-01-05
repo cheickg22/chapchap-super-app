@@ -2275,4 +2275,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'Vérifiez votre adresse e-mail';
+
+  @override
+  String get pleaseAddAddress => 'Veuillez ajouter l\'adresse';
+
+  @override
+  String get verifyEmailText => 'Vérifier l\'adresse e-mail';
 }

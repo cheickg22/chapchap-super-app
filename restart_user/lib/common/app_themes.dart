@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +29,6 @@ class AppThemes {
       ),
       unselectedWidgetColor: Theme.of(context).primaryColorDark,
       appBarTheme: const AppBarTheme(
-        // ignore: deprecated_member_use
         color: AppColors.white,
         surfaceTintColor: AppColors.secondary,
         titleTextStyle: TextStyle(
@@ -188,7 +189,6 @@ class AppThemes {
       ),
       unselectedWidgetColor: Theme.of(context).primaryColorDark,
       appBarTheme: const AppBarTheme(
-        // ignore: deprecated_member_use
         color: AppColors.black,
         surfaceTintColor: AppColors.secondary,
         titleTextStyle: TextStyle(

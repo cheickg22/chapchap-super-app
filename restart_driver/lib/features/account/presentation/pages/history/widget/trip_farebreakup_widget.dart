@@ -199,6 +199,8 @@ class TripFarebreakupWidget extends StatelessWidget {
                                 top: size.width * 0.025,
                               ),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   MyText(
                                     text: AppLocalizations.of(context)!

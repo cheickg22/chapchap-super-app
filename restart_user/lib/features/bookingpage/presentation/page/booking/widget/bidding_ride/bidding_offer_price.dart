@@ -406,7 +406,6 @@ class BiddingOfferingPriceWidget extends StatelessWidget {
                           .farePriceController
                           .text
                           .trim());
-
                       if (enteredFare >= roundedValue &&
                           enteredFare <= roundedHighValue) {
                         Navigator.pop(context);
@@ -418,46 +417,70 @@ class BiddingOfferingPriceWidget extends StatelessWidget {
                                         .read<BookingBloc>()
                                         .selectedGoodsTypeId !=
                                     0)) {
-                          context.read<BookingBloc>().add(BiddingCreateRequestEvent(
-                              userData: context.read<BookingBloc>().userData!,
-                              vehicleData: context.read<BookingBloc>().isMultiTypeVechiles
-                                  ? context.read<BookingBloc>().sortedEtaDetailsList[context
-                                      .read<BookingBloc>()
-                                      .selectedVehicleIndex]
-                                  : context.read<BookingBloc>().etaDetailsList[context
-                                      .read<BookingBloc>()
-                                      .selectedVehicleIndex],
-                              pickupAddressList: arg.pickupAddressList,
-                              dropAddressList: arg.stopAddressList,
-                              selectedTransportType:
-                                  context.read<BookingBloc>().transportType,
-                              paidAt: context.read<BookingBloc>().payAtDrop
-                                  ? 'Receiver'
-                                  : 'Sender',
-                              selectedPaymentType: context
-                                  .read<BookingBloc>()
-                                  .selectedPaymentType,
-                              scheduleDateTime:
-                                  context.read<BookingBloc>().scheduleDateTime,
-                              goodsTypeId: context
-                                  .read<BookingBloc>()
-                                  .selectedGoodsTypeId
-                                  .toString(),
-                              goodsQuantity: context
-                                  .read<BookingBloc>()
-                                  .goodsQtyController
-                                  .text,
-                              offeredRideFare: context
-                                  .read<BookingBloc>()
-                                  .farePriceController
-                                  .text,
-                              polyLine: context.read<BookingBloc>().polyLine,
-                              isOutstationRide: context.read<BookingBloc>().isOutstationRide,
-                              isRoundTrip: context.read<BookingBloc>().isRoundTrip,
-                              scheduleDateTimeForReturn: context.read<BookingBloc>().scheduleDateTimeForReturn,
-                              cardToken: context.read<BookingBloc>().selectedCardToken,
-                              parcelType: arg.title,
-                              preferences: context.read<BookingBloc>().selectedPreferenceDetailsList));
+                          context
+                              .read<BookingBloc>()
+                              .add(BiddingCreateRequestEvent(
+                                userData: context.read<BookingBloc>().userData!,
+                                vehicleData: context
+                                        .read<BookingBloc>()
+                                        .isMultiTypeVechiles
+                                    ? context
+                                            .read<BookingBloc>()
+                                            .sortedEtaDetailsList[
+                                        context
+                                            .read<BookingBloc>()
+                                            .selectedVehicleIndex]
+                                    : context
+                                            .read<BookingBloc>()
+                                            .etaDetailsList[
+                                        context
+                                            .read<BookingBloc>()
+                                            .selectedVehicleIndex],
+                                pickupAddressList: arg.pickupAddressList,
+                                dropAddressList: arg.stopAddressList,
+                                selectedTransportType:
+                                    context.read<BookingBloc>().transportType,
+                                paidAt: context.read<BookingBloc>().payAtDrop
+                                    ? 'Receiver'
+                                    : 'Sender',
+                                selectedPaymentType: context
+                                    .read<BookingBloc>()
+                                    .selectedPaymentType,
+                                scheduleDateTime: context
+                                    .read<BookingBloc>()
+                                    .scheduleDateTime,
+                                goodsTypeId: context
+                                    .read<BookingBloc>()
+                                    .selectedGoodsTypeId
+                                    .toString(),
+                                goodsQuantity: context
+                                    .read<BookingBloc>()
+                                    .goodsQtyController
+                                    .text,
+                                offeredRideFare: context
+                                    .read<BookingBloc>()
+                                    .farePriceController
+                                    .text,
+                                polyLine: context.read<BookingBloc>().polyLine,
+                                isOutstationRide: context
+                                    .read<BookingBloc>()
+                                    .isOutstationRide,
+                                isRoundTrip:
+                                    context.read<BookingBloc>().isRoundTrip,
+                                scheduleDateTimeForReturn: context
+                                    .read<BookingBloc>()
+                                    .scheduleDateTimeForReturn,
+                                cardToken: context
+                                    .read<BookingBloc>()
+                                    .selectedCardToken,
+                                parcelType: arg.title,
+                                preferences: context
+                                    .read<BookingBloc>()
+                                    .selectedPreferenceDetailsList,
+                                preferencesIcons: context
+                                    .read<BookingBloc>()
+                                    .selectedPreferenceIconsList,
+                              ));
                         } else {
                           showToast(
                               message: AppLocalizations.of(context)!

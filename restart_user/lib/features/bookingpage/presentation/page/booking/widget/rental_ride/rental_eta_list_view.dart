@@ -105,7 +105,9 @@ class RentalEtaListViewWidget extends StatelessWidget {
                     MyText(
                       text: AppLocalizations.of(context)!.rideDetails,
                       textStyle:
-                          Theme.of(context).textTheme.bodyMedium!.copyWith(),
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              // fontWeight: FontWeight.bold
+                              ),
                     ),
                     if (arg.userData.showRideLaterFeature)
                       InkWell(
@@ -139,6 +141,7 @@ class RentalEtaListViewWidget extends StatelessWidget {
                                       .copyWith(
                                         color:
                                             Theme.of(context).primaryColorDark,
+                                        // fontWeight: FontWeight.bold
                                       ),
                                 ),
                                 SizedBox(width: size.width * 0.02),
@@ -269,6 +272,7 @@ class RentalEtaListViewWidget extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
+                                        // SizedBox(height: size.width * 0.01),
                                         SizedBox(
                                           width: size.width * 0.44,
                                           child: MyText(
@@ -343,6 +347,7 @@ class RentalEtaListViewWidget extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
+                                    // SizedBox(width: size.width * 0.01),
                                     SizedBox(
                                       child: Column(
                                         crossAxisAlignment:

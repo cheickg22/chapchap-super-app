@@ -127,7 +127,10 @@ class ComplaintListPage extends StatelessWidget {
                                                                   .bodyMedium!
                                                                   .copyWith(
                                                                       fontSize:
-                                                                          16)),
+                                                                          16
+                                                                      // color: Theme.of(context)
+                                                                      //     .disabledColor,
+                                                                      )),
                                                         ),
                                                         Icon(
                                                           Icons

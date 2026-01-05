@@ -412,6 +412,13 @@ class NeededDocumentsWidget extends StatelessWidget {
                               Navigator.pop(context);
                               driverBloc.add(DriverUpdateEvent());
                             } else {
+                              //             Navigator.pushNamedAndRemoveUntil(
+                              // context,
+                              // DriverProfilePage.routeName,
+                              // arguments: VehicleUpdateArguments(
+                              //   from: '',
+                              // ),
+                              // (route) => false);
                               driverBloc.reUploadDocument = false;
                               driverBloc.add(ModifyDocEvent());
                               driverBloc.add(DriverGetUserDetailsEvent());

@@ -99,7 +99,11 @@ class AuthPage extends StatelessWidget {
                       formKey: context.read<AuthBloc>().formKey,
                       emailOrMobile:
                           context.read<AuthBloc>().emailOrMobileController,
-                      continueFunc: () {},
+                      continueFunc: () {
+                        // context
+                        //     .read<AuthBloc>()
+                        //     .add(VerifyUserEvent(loginAs: arg.type));
+                      },
                       focusNode: context.read<AuthBloc>().textFieldFocus,
                       // showLoginBtn: context.read<AuthBloc>().showLoginBtn,
                       showLoginBtn: true,

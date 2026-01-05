@@ -118,6 +118,8 @@ class ApplyCouponWidget extends StatelessWidget {
                         context.read<BookingBloc>().promoErrorText = '';
                         context.read<BookingBloc>().add(UpdateEvent());
                       },
+                      // contentPadding:
+                      //     const EdgeInsets.symmetric(vertical: 12, horizontal: 5),
                       contentPadding: EdgeInsets.all(size.width * 0.025),
                       focusedBorder: (context
                               .read<BookingBloc>()

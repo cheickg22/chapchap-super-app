@@ -156,8 +156,7 @@ class _VerifyPageState extends State<VerifyPage>
                                       ? AppLocalizations.of(context)!
                                           .otpSentEmail
                                       : AppLocalizations.of(context)!
-                                          .testOtp
-                                          .replaceAll('***', '123456'),
+                                          .otpSentMobile,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,
                                   textStyle: Theme.of(context)

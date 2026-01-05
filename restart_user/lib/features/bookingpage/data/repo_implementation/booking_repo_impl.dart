@@ -184,8 +184,6 @@ class BookingRepositoryImpl implements BookingRepository {
           goodsQuantity: goodsQuantity,
           offeredRideFare: offeredRideFare,
           polyLine: polyLine,
-          // isPetAvailable: isPetAvailable,
-          // isLuggageAvailable: isLuggageAvailable,
           isAirport: isAirport,
           isParcel: isParcel,
           packageId: packageId,

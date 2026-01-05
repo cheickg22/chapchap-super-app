@@ -214,15 +214,6 @@ class MapWidget extends StatelessWidget {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(10),
                           onTap: () {
-                            if (homeBloc.bidRideTop ==
-                                (size.height) - (size.height * 0.67)) {
-                              homeBloc.bidRideTop =
-                                  MediaQuery.paddingOf(context).top +
-                                      size.width * 0.05;
-                            } else {
-                              homeBloc.bidRideTop =
-                                  (size.height) - (size.height * 0.67);
-                            }
                             homeBloc.add(UpdateEvent());
                             context
                                 .read<HomeBloc>()

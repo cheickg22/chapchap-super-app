@@ -20,7 +20,8 @@ class SupportTicketPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AccBloc()
         ..add(AccGetDirectionEvent())
-        ..add(GetTicketListEvent(isFromAcc: true)),
+        ..add(GetTicketListEvent(isFromAcc: true))
+        ..add(GetServiceLocationEvent()),
       child: BlocListener<AccBloc, AccState>(
         listener: (context, state) {
           if (state is GetTicketListLoadingState) {

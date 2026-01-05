@@ -392,4 +392,9 @@ class AccUsecase {
   Future<Either<Failure, dynamic>> referalResponse() async {
     return _accRepository.referalResponse();
   }
+
+  Future<Either<Failure, dynamic>> invoiceDownloadUser(
+      {required String journeyId}) async {
+    return _accRepository.invoiceDownloadUser(journeyId: journeyId);
+  }
 }

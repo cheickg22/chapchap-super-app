@@ -384,21 +384,36 @@ class HomeBodyWidget extends StatelessWidget {
                           PopupMenuItem(
                               value: MapType.normal,
                               child: MyText(
-                                  text: AppLocalizations.of(context)!.normal)),
+                                  text: AppLocalizations.of(context)!.normal,
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: AppColors.black))),
                           PopupMenuItem(
                               value: MapType.satellite,
                               child: MyText(
-                                  text:
-                                      AppLocalizations.of(context)!.satellite)),
+                                  text: AppLocalizations.of(context)!.satellite,
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: AppColors.black))),
                           PopupMenuItem(
                             value: MapType.terrain,
                             child: MyText(
-                                text: AppLocalizations.of(context)!.terrain),
+                                text: AppLocalizations.of(context)!.terrain,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.black)),
                           ),
                           PopupMenuItem(
                             value: MapType.hybrid,
                             child: MyText(
-                                text: AppLocalizations.of(context)!.hybrid),
+                                text: AppLocalizations.of(context)!.hybrid,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.black)),
                           ),
                         ],
                       ),
@@ -483,12 +498,6 @@ class HomeBodyWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
                             borderRadius: BorderRadius.circular(5),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //       blurRadius: 3,
-                            //       spreadRadius: 2,
-                            //       color: Theme.of(context).shadowColor)
-                            // ],
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(

@@ -188,4 +188,7 @@ class ApiEndpoints {
   static String getPreferences = 'api/v1/common/preferences';
   static String updatePreferences = 'api/v1/common/preferences/store';
   static String referalHistory = 'api/v1/common/referral/history';
+
+  //downloadInvoice
+  static String downloadInvoiceUser = 'api/v1/user/download-invoice/';
 }

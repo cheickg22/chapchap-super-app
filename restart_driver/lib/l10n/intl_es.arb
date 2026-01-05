@@ -718,5 +718,8 @@
             "scheduledRideAt": "Viaje programado a las",
             "biddingRides": "Viajes de subasta",
             "changeEmail": "Cambiar correo electrónico",
-            "verifyEmailId": "Verifica tu correo electrónico"
+            "verifyEmailId": "Verifica tu correo electrónico",
+            "pleaseAddAddress": "Por favor agregue la dirección",
+            "verifyEmailText": "Verificar correo electrónico",
+            "downloadInvoice": "Descargar factura"
         }

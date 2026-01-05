@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -169,7 +168,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                                     .copyWith(fontSize: 18),
                                               ),
                                             SizedBox(
-                                              width: size.width * 55,
+                                              width: size.width * 5,
                                               child: MyText(
                                                 text: widget.arg.emailOrMobile,
                                                 textStyle: Theme.of(context)
@@ -181,6 +180,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                                                 false)
                                                             ? 18
                                                             : 16),
+                                                maxLines: 2,
                                               ),
                                             ),
                                           ],
@@ -204,7 +204,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
                                                 .bodyMedium!
                                                 .copyWith(
                                                     color: AppColors.primary,
-                                                    fontSize: 12),
+                                                    fontSize: 11),
                                           ),
                                         ),
                                       ],

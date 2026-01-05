@@ -1888,7 +1888,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get savedCards => 'Saxlanan Kartlar';
 
   @override
-  String get downloadInvoice => 'Faktura yükləyin';
+  String get downloadInvoice => 'Fakturanı yüklə';
 
   @override
   String get invoiceSendContent =>
@@ -2241,4 +2241,10 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'E-poçt ünvanınızı doğrulayın';
+
+  @override
+  String get pleaseAddAddress => 'Ünvan əlavə edin';
+
+  @override
+  String get verifyEmailText => 'E-poçtu təsdiqləyin';
 }

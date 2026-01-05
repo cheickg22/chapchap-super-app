@@ -43,8 +43,6 @@ class _LandingPageState extends State<LandingPage> {
             CustomLoader.dismiss(context);
           }
           if (state is SkipState) {
-            // Navigator.pushNamedAndRemoveUntil(
-            //     context, AuthPage.routeName, (route) => false);
             Navigator.pushNamedAndRemoveUntil(
                 context, LoginPage.routeName, (route) => false);
           }

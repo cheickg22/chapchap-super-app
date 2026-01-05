@@ -275,19 +275,17 @@ class BannerImage {
 
 class BannerImageData {
   String image;
+  String imageUrl;
 
-  BannerImageData({
-    required this.image,
-  });
+  BannerImageData({required this.image, required this.imageUrl});
 
   factory BannerImageData.fromJson(Map<String, dynamic> json) =>
       BannerImageData(
         image: json["image"] ?? '',
+        imageUrl: json["image_url"] ?? '',
       );
 
-  Map<String, dynamic> toJson() => {
-        "image": image,
-      };
+  Map<String, dynamic> toJson() => {"image": image, "image_url": imageUrl};
 }
 
 class SOSDatum {

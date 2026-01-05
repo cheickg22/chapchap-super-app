@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -153,6 +155,7 @@ class EtaListViewWidget extends StatelessWidget {
                           if (arg.isWithoutDestinationRide == null ||
                               !arg.isWithoutDestinationRide!) ...[
                             if (context.read<BookingBloc>().enableBiddingRides)
+                              // SizedBox(width: size.width * 0.02),
                               InkWell(
                                 onTap: () {
                                   if ((bookingBloc.showBiddingVehicles ||
@@ -492,9 +495,6 @@ class EtaListViewWidget extends StatelessWidget {
                                                 width: size.width * 0.05,
                                                 color: AppColors.white,
                                               )
-                                            // Icon(Icons.check_circle,
-                                            //     size: 20,
-                                            //     color: AppColors.white)
                                           ],
                                         ),
                                         SizedBox(
@@ -1732,251 +1732,317 @@ class EtaListViewWidget extends StatelessWidget {
                 ),
 
               // preference
-              InkWell(
-                onTap: () {
-                  if ((context
-                      .read<BookingBloc>()
-                      .preferenceDetailsList!
-                      .isNotEmpty)) {
-                    context.read<BookingBloc>().add(UpdateEvent());
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: false,
-                        enableDrag: false,
-                        isDismissible: false,
-                        barrierColor: Theme.of(context).shadowColor,
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(
-                                20.0), // Adjust the radius to your liking
+              if (context.read<BookingBloc>().transportType == 'taxi') ...[
+                InkWell(
+                  onTap: () {
+                    if ((context
+                        .read<BookingBloc>()
+                        .preferenceDetailsList!
+                        .isNotEmpty)) {
+                      context.read<BookingBloc>().add(UpdateEvent());
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: false,
+                          enableDrag: false,
+                          isDismissible: false,
+                          barrierColor: Theme.of(context).shadowColor,
+                          backgroundColor:
+                              Theme.of(context).scaffoldBackgroundColor,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(
+                                  20.0), // Adjust the radius to your liking
+                            ),
                           ),
-                        ),
-                        builder: (_) {
-                          return SelectPreferenceWidget(
-                            cont: context,
-                            arg: arg,
-                          );
-                        });
-                  } else {}
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: size.width * 0.05,
-                      right: size.width * 0.05,
-                      bottom: size.width * 0.025),
-                  child: Container(
-                    width: size.width,
-                    padding: EdgeInsets.fromLTRB(
-                        size.width * 0.05,
-                        size.width * 0.025,
-                        size.width * 0.05,
-                        size.width * 0.025),
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: AppColors.borderColor),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Icon(Icons.tune,
-                              size: 20,
-                              color: (context
-                                      .read<BookingBloc>()
-                                      .preferenceDetailsList!
-                                      .isEmpty)
-                                  ? AppColors.greyHeader
-                                  : Theme.of(context).primaryColorDark),
-                          SizedBox(width: size.width * 0.025),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              MyText(
-                                  text:
-                                      AppLocalizations.of(context)!.preferences,
-                                  textStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                          color: (context
-                                                  .read<BookingBloc>()
-                                                  .preferenceDetailsList!
-                                                  .isEmpty)
-                                              ? AppColors.greyHeader
-                                              : Theme.of(context)
-                                                  .primaryColorDark)),
-                              (context.read<BookingBloc>().isRentalRide ==
-                                      false)
-                                  ? Row(
-                                      children: List.generate(
-                                          context
-                                              .read<BookingBloc>()
-                                              .selectedPreferenceDetailsList
-                                              .length, (index) {
-                                        try {
-                                          final prefId = context
-                                                  .read<BookingBloc>()
-                                                  .selectedPreferenceDetailsList[
-                                              index];
-                                          final prefList = context
-                                                  .read<BookingBloc>()
-                                                  .preferenceDetailsList ??
-                                              [];
-                                          final pref = prefList.firstWhere(
-                                            (e) => e.preferenceId == prefId,
-                                          );
-                                          return CachedNetworkImage(
-                                            imageUrl: pref.icon,
-                                            fit: BoxFit.cover,
-                                            width: 12,
-                                            height: 12,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const SizedBox.shrink(),
-                                          );
-                                        } catch (e) {
-                                          return const SizedBox.shrink();
-                                        }
-                                      }),
-                                    )
-                                  : Row(
-                                      children: List.generate(
-                                          context
-                                              .read<BookingBloc>()
-                                              .selectedPreferenceDetailsList
-                                              .length, (index) {
-                                        try {
-                                          final prefId = context
-                                                  .read<BookingBloc>()
-                                                  .selectedPreferenceDetailsList[
-                                              index];
-                                          final prefList = context
-                                                  .read<BookingBloc>()
-                                                  .rentalPreferenceDetailsList ??
-                                              [];
-                                          final pref = prefList.firstWhere(
-                                            (e) => e.preferenceId == prefId,
-                                          );
-                                          return CachedNetworkImage(
-                                            imageUrl: pref.icon,
-                                            fit: BoxFit.cover,
-                                            width: 12,
-                                            height: 12,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const SizedBox.shrink(),
-                                          );
-                                        } catch (e) {
-                                          return const SizedBox.shrink();
-                                        }
-                                      }),
-                                    )
-                            ],
-                          )
-                        ]),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: size.width * 0.06,
-                          color: AppColors.hintColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              // coupon
-              InkWell(
-                onTap: () {
-                  context.read<BookingBloc>().promoErrorText = '';
-                  context.read<BookingBloc>().add(UpdateEvent());
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    barrierColor: Theme.of(context).shadowColor,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20.0),
+                          builder: (_) {
+                            return SelectPreferenceWidget(
+                              cont: context,
+                              arg: arg,
+                            );
+                          });
+                    } else {}
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: size.width * 0.05,
+                        right: size.width * 0.05,
+                        bottom: size.width * 0.025),
+                    child: Container(
+                      width: size.width,
+                      padding: EdgeInsets.fromLTRB(
+                          size.width * 0.05,
+                          size.width * 0.025,
+                          size.width * 0.05,
+                          size.width * 0.025),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1, color: AppColors.borderColor),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(children: [
+                            Icon(Icons.tune,
+                                size: 20,
+                                color: (context
+                                        .read<BookingBloc>()
+                                        .preferenceDetailsList!
+                                        .isEmpty)
+                                    ? AppColors.greyHeader
+                                    : Theme.of(context).primaryColorDark),
+                            SizedBox(width: size.width * 0.025),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                MyText(
+                                    text: AppLocalizations.of(context)!
+                                        .preferences,
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: (context
+                                                    .read<BookingBloc>()
+                                                    .preferenceDetailsList!
+                                                    .isEmpty)
+                                                ? AppColors.greyHeader
+                                                : Theme.of(context)
+                                                    .primaryColorDark)),
+                                (context.read<BookingBloc>().isRentalRide ==
+                                        false)
+                                    ? Row(
+                                        children: List.generate(
+                                            context
+                                                .read<BookingBloc>()
+                                                .selectedPreferenceDetailsList
+                                                .length, (index) {
+                                          try {
+                                            final prefId = context
+                                                    .read<BookingBloc>()
+                                                    .selectedPreferenceDetailsList[
+                                                index];
+                                            final prefList = context
+                                                    .read<BookingBloc>()
+                                                    .preferenceDetailsList ??
+                                                [];
+                                            final pref = prefList.firstWhere(
+                                              (e) => e.preferenceId == prefId,
+                                            );
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(
+                                                      size.width * 0.005),
+                                                  width: 14,
+                                                  height: 14,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: AppColors.white,
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: pref.icon,
+                                                    fit: BoxFit.cover,
+                                                    width: 12,
+                                                    height: 12,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const SizedBox.shrink(),
+                                                  ),
+                                                ),
+                                                if (index !=
+                                                    context
+                                                            .read<BookingBloc>()
+                                                            .selectedPreferenceDetailsList
+                                                            .length -
+                                                        1)
+                                                  const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 2),
+                                                    child: Text(
+                                                      ',',
+                                                      style: TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                  ),
+                                              ],
+                                            );
+                                          } catch (e) {
+                                            return const SizedBox.shrink();
+                                          }
+                                        }),
+                                      )
+                                    : Row(
+                                        children: List.generate(
+                                            context
+                                                .read<BookingBloc>()
+                                                .selectedPreferenceDetailsList
+                                                .length, (index) {
+                                          try {
+                                            final prefId = context
+                                                    .read<BookingBloc>()
+                                                    .selectedPreferenceDetailsList[
+                                                index];
+                                            final prefList = context
+                                                    .read<BookingBloc>()
+                                                    .rentalPreferenceDetailsList ??
+                                                [];
+                                            final pref = prefList.firstWhere(
+                                              (e) => e.preferenceId == prefId,
+                                            );
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(
+                                                      size.width * 0.005),
+                                                  width: 14,
+                                                  height: 14,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: AppColors.white,
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: pref.icon,
+                                                    fit: BoxFit.cover,
+                                                    width: 12,
+                                                    height: 12,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const SizedBox.shrink(),
+                                                  ),
+                                                ),
+                                                if (index !=
+                                                    context
+                                                            .read<BookingBloc>()
+                                                            .selectedPreferenceDetailsList
+                                                            .length -
+                                                        1)
+                                                  const Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 2),
+                                                    child: Text(
+                                                      ',',
+                                                      style: TextStyle(
+                                                          fontSize: 12),
+                                                    ),
+                                                  ),
+                                              ],
+                                            );
+                                          } catch (e) {
+                                            return const SizedBox.shrink();
+                                          }
+                                        }),
+                                      )
+                              ],
+                            )
+                          ]),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: size.width * 0.06,
+                            color: AppColors.hintColor,
+                          ),
+                        ],
                       ),
                     ),
-                    builder: (_) {
-                      return BlocProvider.value(
-                        value: context.read<BookingBloc>(),
-                        child: ApplyCouponWidget(
-                          arg: arg,
-                          cont: context,
+                  ),
+                ),
+
+                // coupon
+                InkWell(
+                  onTap: () {
+                    context.read<BookingBloc>().promoErrorText = '';
+                    context.read<BookingBloc>().add(UpdateEvent());
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      barrierColor: Theme.of(context).shadowColor,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
                         ),
-                      );
-                    },
-                  );
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: size.width * 0.05,
-                      right: size.width * 0.05,
-                      bottom: size.width * 0.025),
-                  child: Container(
-                    width: size.width,
-                    padding: EdgeInsets.fromLTRB(
-                        size.width * 0.05,
-                        size.width * 0.025,
-                        size.width * 0.05,
-                        size.width * 0.025),
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: AppColors.borderColor),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Image.asset(
-                            AppImages.ticketImage,
-                            width: size.width * 0.05,
+                      ),
+                      builder: (_) {
+                        return BlocProvider.value(
+                          value: context.read<BookingBloc>(),
+                          child: ApplyCouponWidget(
+                            arg: arg,
+                            cont: context,
                           ),
-                          SizedBox(width: size.width * 0.025),
-                          MyText(
-                              text: AppLocalizations.of(context)!.coupon,
-                              textStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith())
-                        ]),
-                        Icon(
-                          Icons.arrow_forward,
-                          size: size.width * 0.06,
-                          color: AppColors.hintColor,
-                        ),
-                      ],
+                        );
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: size.width * 0.05,
+                        right: size.width * 0.05,
+                        bottom: size.width * 0.025),
+                    child: Container(
+                      width: size.width,
+                      padding: EdgeInsets.fromLTRB(
+                          size.width * 0.05,
+                          size.width * 0.025,
+                          size.width * 0.05,
+                          size.width * 0.025),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1, color: AppColors.borderColor),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(children: [
+                            Image.asset(
+                              AppImages.ticketImage,
+                              width: size.width * 0.05,
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                            SizedBox(width: size.width * 0.025),
+                            MyText(
+                                text: AppLocalizations.of(context)!.coupon,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith())
+                          ]),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: size.width * 0.06,
+                            color: AppColors.hintColor,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              // instructions
-              Padding(
-                padding: EdgeInsets.only(
-                    left: size.width * 0.05,
-                    right: size.width * 0.05,
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: CustomTextField(
-                  controller:
-                      context.read<BookingBloc>().instructionsController,
-                  borderRadius: 10,
-                  filled: true,
-                  hintText:
-                      '${AppLocalizations.of(context)!.instructions}(${AppLocalizations.of(context)!.optional})',
-                  maxLine: 3,
-                  keyboardType: TextInputType.text,
-                  onChange: (p0) {
-                    context.read<BookingBloc>().add(UpdateEvent());
-                  },
+                // instructions
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: size.width * 0.05,
+                      right: size.width * 0.05,
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: CustomTextField(
+                    controller:
+                        context.read<BookingBloc>().instructionsController,
+                    borderRadius: 10,
+                    filled: true,
+                    hintText:
+                        '${AppLocalizations.of(context)!.instructions}(${AppLocalizations.of(context)!.optional})',
+                    maxLine: 3,
+                    keyboardType: TextInputType.text,
+                    onChange: (p0) {
+                      context.read<BookingBloc>().add(UpdateEvent());
+                    },
+                  ),
                 ),
-              ),
+              ]
             ],
           );
         },
@@ -1985,7 +2051,6 @@ class EtaListViewWidget extends StatelessWidget {
   }
 }
 
-// ignore: unused_element
 class _AddPreferenceButton extends StatelessWidget {
   final Size size;
   final BookingPageArguments arg;

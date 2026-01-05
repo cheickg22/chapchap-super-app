@@ -50,6 +50,13 @@ class CommonModuleModel {
 
   factory CommonModuleModel.fromJson(Map<String, dynamic> json) =>
       CommonModuleModel(
+        // success: json["success"] ?? false,
+        // message: json["message"] ?? '',
+        // enableOwnerLogin: json["enable_owner_login"] ?? '0',
+        // enableEmailOtp: json["enable_email_otp"] ?? '0',
+        // firebaseOtpEnabled: json["firebase_otp_enabled"] ?? false,
+        // enableRefferal: json["enable_driver_referral_earnings"] ?? "0",
+        // enableEmailLogin: json["enable_email_login"] ?? "0",
         success: json["success"] ?? false,
         message: json["message"] ?? '',
         enableOwnerLogin: json["enable_owner_login"] ?? '0',

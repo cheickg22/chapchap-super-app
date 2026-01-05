@@ -137,8 +137,6 @@ class _VerifyPageState extends State<VerifyPage>
                                     MediaQuery.of(context).size.width * 0.1),
                             context.read<AuthBloc>().isOtpVerify
                                 ? MyText(
-                                    // text: AppLocalizations.of(context)!
-                                    //     .otpSendContent,
                                     text: widget.arg.isLoginByEmail
                                         ? AppLocalizations.of(context)!
                                             .otpSendContent
@@ -188,10 +186,6 @@ class _VerifyPageState extends State<VerifyPage>
                                           child: Text(""),
                                         ),
                                       ),
-                                      // child: Image.network(
-                                      //   widget.arg.countryFlag,
-                                      //   fit: BoxFit.fill,
-                                      // ),
                                     ),
                                   ),
                                 const SizedBox(width: 10),

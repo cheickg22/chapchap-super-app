@@ -181,6 +181,9 @@ class BookingBottomWidget extends StatelessWidget {
                                                 arg: arg,
                                               );
                                             });
+                                        // } else {
+                                        //   showToast(message: "Unavailable");
+                                        // }
                                       },
                                       child: Row(children: [
                                         Icon(Icons.tune,
@@ -221,14 +224,25 @@ class BookingBottomWidget extends StatelessWidget {
                                                         e.preferenceId ==
                                                         prefId,
                                                   );
-                                                  return CachedNetworkImage(
-                                                    imageUrl: pref.icon,
-                                                    fit: BoxFit.cover,
-                                                    width: 12,
-                                                    height: 12,
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const SizedBox.shrink(),
+                                                  return Container(
+                                                    padding: EdgeInsets.all(
+                                                        size.width * 0.005),
+                                                    width: 14,
+                                                    height: 14,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: AppColors.white,
+                                                    ),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: pref.icon,
+                                                      fit: BoxFit.cover,
+                                                      width: 12,
+                                                      height: 12,
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const SizedBox
+                                                              .shrink(),
+                                                    ),
                                                   );
                                                 } catch (e) {
                                                   return const SizedBox
@@ -278,6 +292,9 @@ class BookingBottomWidget extends StatelessWidget {
                                                 arg: arg,
                                               );
                                             });
+                                        // } else {
+                                        //   showToast(message: "Unavailable");
+                                        // }
                                       },
                                       child: Row(children: [
                                         Icon(Icons.tune,
@@ -320,15 +337,30 @@ class BookingBottomWidget extends StatelessWidget {
                                                               e.preferenceId ==
                                                               prefId,
                                                         );
-                                                        return CachedNetworkImage(
-                                                          imageUrl: pref.icon,
-                                                          fit: BoxFit.cover,
-                                                          width: 12,
-                                                          height: 12,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              const SizedBox
-                                                                  .shrink(),
+                                                        return Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  size.width *
+                                                                      0.005),
+                                                          width: 14,
+                                                          height: 14,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                AppColors.white,
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: pref.icon,
+                                                            fit: BoxFit.cover,
+                                                            width: 12,
+                                                            height: 12,
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const SizedBox
+                                                                    .shrink(),
+                                                          ),
                                                         );
                                                       } catch (e) {
                                                         return const SizedBox
@@ -357,15 +389,30 @@ class BookingBottomWidget extends StatelessWidget {
                                                               e.preferenceId ==
                                                               prefId,
                                                         );
-                                                        return CachedNetworkImage(
-                                                          imageUrl: pref.icon,
-                                                          fit: BoxFit.cover,
-                                                          width: 12,
-                                                          height: 12,
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              const SizedBox
-                                                                  .shrink(),
+                                                        return Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  size.width *
+                                                                      0.005),
+                                                          width: 14,
+                                                          height: 14,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            color:
+                                                                AppColors.white,
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: pref.icon,
+                                                            fit: BoxFit.cover,
+                                                            width: 12,
+                                                            height: 12,
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const SizedBox
+                                                                    .shrink(),
+                                                          ),
                                                         );
                                                       } catch (e) {
                                                         return const SizedBox
@@ -436,6 +483,8 @@ class BookingBottomWidget extends StatelessWidget {
                                           Image.asset(
                                             AppImages.ticketImage,
                                             width: size.width * 0.05,
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
                                           ),
                                           SizedBox(width: size.width * 0.025),
                                           MyText(

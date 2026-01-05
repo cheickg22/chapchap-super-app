@@ -24,6 +24,7 @@ class _SelectPreferenceWidgetState extends State<SelectPreferenceWidget> {
     super.initState();
     final bloc = widget.cont.read<BookingBloc>();
     bloc.selectPreference = List<int>.from(bloc.selectedPreferenceDetailsList);
+    // Copy saved preferences into local temp list
   }
 
   @override
@@ -143,6 +144,10 @@ class _SelectPreferenceWidgetState extends State<SelectPreferenceWidget> {
                                                   bookingBloc.add(
                                                       SelectedPreferenceEvent(
                                                           prefId: prefId,
+                                                          prefIcon: bookingBloc
+                                                              .preferenceDetailsList![
+                                                                  index]
+                                                              .icon,
                                                           isSelected:
                                                               value ?? false));
                                                 },
@@ -243,6 +248,10 @@ class _SelectPreferenceWidgetState extends State<SelectPreferenceWidget> {
                                                   bookingBloc.add(
                                                       SelectedPreferenceEvent(
                                                           prefId: prefId,
+                                                          prefIcon: bookingBloc
+                                                              .rentalPreferenceDetailsList![
+                                                                  index]
+                                                              .icon,
                                                           isSelected:
                                                               value ?? false));
                                                 },
@@ -326,11 +335,14 @@ class _SelectPreferenceWidgetState extends State<SelectPreferenceWidget> {
                             isOutstationRide: widget.arg.isOutstationRide,
                             isWithoutDestinationRide:
                                 widget.arg.isWithoutDestinationRide ?? false,
+                            // preferenceId: bloc.selectPreference.isNotEmpty ? bloc.selectPreference : null,
                             preferenceId: bloc.tempSelectPreference.isNotEmpty
                                 ? bloc.tempSelectPreference
                                 : null,
                           ));
                         }
+
+                        // Navigator.pop(context, bloc.selectPreference);
                         Navigator.pop(context, bloc.tempSelectPreference);
                       },
                     )

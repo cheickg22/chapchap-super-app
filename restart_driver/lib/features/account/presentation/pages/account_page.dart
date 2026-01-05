@@ -458,17 +458,6 @@ class AccountPage extends StatelessWidget {
                                   },
                                 ),
 
-                              // Admin chat
-                              //   MenuOptions(
-                              //   icon: Icons.chat,
-                              //   label: AppLocalizations.of(context)!
-                              //       .chatWithUs,
-                              //   onTap: () {
-                              //     Navigator.pushNamed(
-                              //         context, AdminChat.routeName);
-                              //   },
-                              // ),
-
                               MyText(
                                 text: AppLocalizations.of(context)!.earnings,
                                 textStyle: Theme.of(context)

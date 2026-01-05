@@ -554,6 +554,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       RegisterUserEvent event, Emitter<AuthState> emit) async {
     emit(LoginLoadingState());
     isLoading = true;
+    // if (event.profileImage.isNotEmpty) {
     final data = await serviceLocator<AuthUsecase>().userRegister(
       userName: event.userName,
       mobileNumber: event.mobileNumber,
@@ -573,7 +574,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         showToast(message: 'Registered Successfully');
         isLoading = false;
         emit(LoginSuccessState());
-        await AppSharedPreference.setToken('Bearer ${success.accessToken}');
+        await AppSharedPreference.setToken(
+            // '${success.tokenType} ${success.accessToken}');
+            'Bearer ${success.accessToken}');
         await AppSharedPreference.setLoginStatus(true);
       },
     );
@@ -638,6 +641,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     data.fold(
       (error) {
+        // showToast(message: '${error.message}');
         if (error.message != null) {
           showToast(message: error.message!);
         } else {
@@ -657,7 +661,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(LoginSuccessState());
         showToast(message: AppLocalizations.of(event.context)!.loginSuccess);
         debugPrint('${success.tokenType} ${success.accessToken}');
-        await AppSharedPreference.setToken('Bearer ${success.accessToken}');
+        await AppSharedPreference.setToken(
+            // '${success.tokenType} ${success.accessToken}');
+            'Bearer ${success.accessToken}');
         await AppSharedPreference.setLoginStatus(true);
       },
     );

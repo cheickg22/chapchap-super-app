@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -135,6 +136,11 @@ class BiddingOutStationListWidget extends StatelessWidget {
                                             .outStationList
                                             .asMap()
                                             .map((key, value) {
+                                              final List preferenceIcons = context
+                                                          .read<HomeBloc>()
+                                                          .outStationList[key]
+                                                      ['preferences_icon'] ??
+                                                  [];
                                               List stops = [];
                                               if (context
                                                           .read<HomeBloc>()
@@ -210,25 +216,14 @@ class BiddingOutStationListWidget extends StatelessWidget {
                                                               0.05),
                                                       width: size.width * 0.9,
                                                       decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 1,
+                                                              color: AppColors
+                                                                  .borderColor),
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(10),
-                                                          color: AppColors
-                                                              .secondary
-                                                              .withAlpha(
-                                                                  (0.4 * 255)
-                                                                      .toInt()),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Theme.of(
-                                                                        context)
-                                                                    .shadowColor,
-                                                                offset:
-                                                                    const Offset(
-                                                                        0, 0),
-                                                                blurRadius: 1,
-                                                                spreadRadius: 1)
-                                                          ]),
+                                                                  .circular(
+                                                                      10)),
                                                       child: Column(
                                                         children: [
                                                           SizedBox(
@@ -466,6 +461,82 @@ class BiddingOutStationListWidget extends StatelessWidget {
                                                             height: size.width *
                                                                 0.05,
                                                           ),
+                                                          if (preferenceIcons
+                                                              .isNotEmpty) ...[
+                                                            Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                MyText(
+                                                                  text:
+                                                                      '${AppLocalizations.of(context)!.preferences} :- ',
+                                                                  textStyle: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium!
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              14),
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      preferenceIconsRow(
+                                                                    context:
+                                                                        context,
+                                                                    icons:
+                                                                        preferenceIcons,
+                                                                    size: size
+                                                                        .width,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  size.width *
+                                                                      0.025,
+                                                            ),
+                                                          ],
+                                                          if (context
+                                                                      .read<
+                                                                          HomeBloc>()
+                                                                      .outStationList[key]
+                                                                  [
+                                                                  'pick_poc_instruction'] !=
+                                                              '') ...[
+                                                            Row(
+                                                              children: [
+                                                                MyText(
+                                                                    text:
+                                                                        '${AppLocalizations.of(context)!.instruction} :- ',
+                                                                    textStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyMedium!
+                                                                        .copyWith()),
+                                                                MyText(
+                                                                    text: context
+                                                                        .read<
+                                                                            HomeBloc>()
+                                                                        .outStationList[
+                                                                            key]
+                                                                            [
+                                                                            'pick_poc_instruction']
+                                                                        .toString(),
+                                                                    textStyle: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyMedium!
+                                                                        .copyWith()),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  size.width *
+                                                                      0.02,
+                                                            ),
+                                                          ],
                                                           if (context.read<HomeBloc>().outStationList[
                                                                           key][
                                                                       "is_pet_available"] ==
@@ -670,6 +741,55 @@ class BiddingOutStationListWidget extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget preferenceIconsRow({
+    required BuildContext context,
+    required List icons,
+    required double size,
+  }) {
+    if (icons.isEmpty) return const SizedBox();
+
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: List.generate(icons.length, (index) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              color: AppColors.white,
+              padding: const EdgeInsets.all(1),
+              child: CachedNetworkImage(
+                imageUrl: icons[index].toString(),
+                fit: BoxFit.cover,
+                width: 15,
+                height: 15,
+                placeholder: (_, __) => const SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: CircularProgressIndicator(strokeWidth: 1),
+                ),
+                errorWidget: (_, __, ___) => const Icon(
+                  Icons.error,
+                  size: 14,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+
+            /// 👇 COMMA (except last item)
+            if (index != icons.length - 1)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Text(
+                  ',',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 }

@@ -397,6 +397,11 @@ class UpdatePreferencesEvent extends HomeEvent {
   UpdatePreferencesEvent({required this.id});
 }
 
+// class SelectedPreferenceEvent extends HomeEvent {
+//   final int id;
+//   SelectedPreferenceEvent({required this.id});
+// }
+
 class SelectedPreferenceEvent extends HomeEvent {
   final int prefId;
   final bool isSelected;

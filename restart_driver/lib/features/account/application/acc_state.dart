@@ -522,8 +522,6 @@ class TicketReplyMessageState extends AccState {}
 
 class TicketSubmitState extends AccState {}
 
-class InvoiceDownloadSuccessState extends AccState {}
-
 class AccLocationUpdated extends AccState {
   final LatLng latLng;
   final String address;
@@ -588,3 +586,9 @@ final class ReferralResponseLoadingState extends AccState {}
 final class ReferralResponseSuccessState extends AccState {}
 
 final class ReferralResponseFailureState extends AccState {}
+
+final class InvoiceDownloadSuccessState extends AccState {}
+
+final class InvoiceDownloadFailureState extends AccState {}
+
+final class InvoiceDownloadingState extends AccState {}

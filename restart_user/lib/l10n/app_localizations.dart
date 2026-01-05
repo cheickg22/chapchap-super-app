@@ -3103,6 +3103,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verify your email id'**
   String get verifyEmailId;
+
+  /// No description provided for @verifyEmailText.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Email'**
+  String get verifyEmailText;
+
+  /// No description provided for @deliveryOutStation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery OutStation'**
+  String get deliveryOutStation;
+
+  /// No description provided for @deliveryRental.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Rental'**
+  String get deliveryRental;
+
+  /// No description provided for @deliveryRide.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Ride'**
+  String get deliveryRide;
 }
 
 class _AppLocalizationsDelegate

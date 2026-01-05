@@ -1,4 +1,5 @@
 // referral_response.dart
+
 class ReferralResponse {
   ReferralResponse({
     required this.success,

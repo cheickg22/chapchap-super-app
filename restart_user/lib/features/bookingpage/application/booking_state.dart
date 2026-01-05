@@ -185,3 +185,9 @@ class DragBookingState {
     );
   }
 }
+
+class OpenPaymentWebViewState extends BookingState {
+  final String paymentUrl;
+
+  OpenPaymentWebViewState({required this.paymentUrl});
+}

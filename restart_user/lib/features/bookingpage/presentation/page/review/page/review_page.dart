@@ -30,6 +30,8 @@ class ReviewPage extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                   context, HomePage.routeName, (route) => false);
             } else if (state is LogoutState) {
+              // Navigator.pushNamedAndRemoveUntil(
+              //     context, AuthPage.routeName, (route) => false);
               Navigator.pushNamedAndRemoveUntil(
                   context, LoginPage.routeName, (route) => false);
               await AppSharedPreference.setLoginStatus(false);
@@ -45,8 +47,8 @@ class ReviewPage extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 46),
+                      // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 46),
+                      padding: EdgeInsets.all(size.width * 0.05),
                       child: Container(
                         width: size.width,
                         decoration: BoxDecoration(
@@ -56,7 +58,7 @@ class ReviewPage extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(height: size.width * 0.15),
+                            SizedBox(height: size.width * 0.05),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),

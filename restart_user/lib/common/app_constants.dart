@@ -22,6 +22,7 @@ class AppConstants {
 
   static String mapKey =
       (Platform.isAndroid) ? 'android map key' : 'ios map key';
+
   static const String stripPublishKey = '';
 
   static List<LocaleLanguageList> languageList = [

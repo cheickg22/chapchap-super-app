@@ -2231,4 +2231,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'Verify your email id';
+
+  @override
+  String get pleaseAddAddress => 'Please add address';
+
+  @override
+  String get verifyEmailText => 'Verify Email';
 }

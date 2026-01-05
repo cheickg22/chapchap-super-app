@@ -50,10 +50,6 @@ class AdditionalChargeWidget extends StatelessWidget {
                                     .copyWith(
                                       fontSize: 16,
                                     ),
-                                // textStyle: AppTextStyle.boldStyle().copyWith(
-                                //   // color: AppColors.primary,
-                                //   fontSize: 16,
-                                // ),
                               ),
                               InkWell(
                                 onTap: () {

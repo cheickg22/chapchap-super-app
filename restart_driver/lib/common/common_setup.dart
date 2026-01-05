@@ -84,6 +84,7 @@ Future<void> commonSetup() async {
           appId: AppConstants.firebaseAppId,
           messagingSenderId: AppConstants.firebasemessagingSenderId,
           projectId: AppConstants.firebaseProjectId));
+  // await Firebase.initializeApp();
   await locator.init();
 
   PushNotification().initMessaging();

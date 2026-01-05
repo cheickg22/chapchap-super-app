@@ -718,5 +718,8 @@
             "scheduledRideAt": "رحلة مجدولة في",
             "biddingRides": "رحلات المزايدة",
             "changeEmail": "تغيير البريد الإلكتروني",
-            "verifyEmailId": "تحقق من معرف البريد الإلكتروني الخاص بك"
+            "verifyEmailId": "تحقق من معرف البريد الإلكتروني الخاص بك",
+            "pleaseAddAddress": "الرجاء إضافة العنوان",
+            "verifyEmailText": "تأكيد البريد الإلكتروني",
+            "downloadInvoice": "تحميل الفاتورة"
         }

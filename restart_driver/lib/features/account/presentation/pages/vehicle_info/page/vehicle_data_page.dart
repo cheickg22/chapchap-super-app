@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restart_tagxi/common/app_arguments.dart';
@@ -445,6 +447,8 @@ class _VehicleDataPageState extends State<VehicleDataPage> {
                                     height: size.width * 0.128,
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
+                                      // border:
+                                      //     Border.all(color: AppColors.darkGrey),
                                       color: AppColors.primary,
                                     ),
                                     child: Icon(

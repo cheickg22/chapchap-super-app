@@ -49,11 +49,6 @@ class HelpPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: size.height * 0.03),
-                  // if (context
-                  //                             .read<AccBloc>()
-                  //                             .userData!
-                  //                             .enableSupportTicketFeature ==
-                  //                         '1')
                   MenuOptions(
                       label: AppLocalizations.of(context)!.supportTicket,
                       icon: Icons.support,

@@ -499,5 +499,10 @@
    "preferences": "التفضيلات",
    "planYourRide": "خطط لرحلتك",
    "changeEmail": "تغيير البريد الإلكتروني",
-   "verifyEmailId": "تحقق من معرف البريد الإلكتروني الخاص بك"
+   "verifyEmailId": "تحقق من معرف البريد الإلكتروني الخاص بك",
+   "verifyEmailText": "تأكيد البريد الإلكتروني",
+   "downloadInvoice": "تحميل الفاتورة",
+   "deliveryOutStation": "توصيل خارج المحطة",
+            "deliveryRental": "تأجير التوصيل",
+            "deliveryRide": "رحلة توصيل"
         }

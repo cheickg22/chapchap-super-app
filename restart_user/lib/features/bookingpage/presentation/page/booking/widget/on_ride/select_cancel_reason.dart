@@ -65,6 +65,13 @@ class SelectCancelReasonList extends StatelessWidget {
                               bookingBloc.selectedCancelReason == reason.reason;
                           return Container(
                             margin: const EdgeInsets.only(bottom: 10),
+                            // decoration: BoxDecoration(
+                            //   borderRadius: BorderRadius.circular(5),
+                            //   border: Border.all(
+                            //       color: Theme.of(context)
+                            //           .dividerColor
+                            //           .withAlpha((0.5 * 255).toInt())),
+                            // ),
                             child: CheckboxListTile(
                               value: isSelected,
                               contentPadding: EdgeInsets.zero,

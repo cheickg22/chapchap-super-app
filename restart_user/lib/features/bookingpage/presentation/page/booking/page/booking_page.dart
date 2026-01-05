@@ -102,6 +102,8 @@ class _BookingPageState extends State<BookingPage>
                     double.parse(widget.arg.picklng)));
           } else if (state is LogoutState) {
             bookingBloc.nearByVechileSubscription?.cancel();
+            // Navigator.pushNamedAndRemoveUntil(
+            //     context, AuthPage.routeName, (route) => false);
             Navigator.pushNamedAndRemoveUntil(
                 context, LoginPage.routeName, (route) => false);
             await AppSharedPreference.setLoginStatus(false);

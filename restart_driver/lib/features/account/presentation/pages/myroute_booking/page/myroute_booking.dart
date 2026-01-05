@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:restart_tagxi/core/utils/custom_appbar.dart';
 import 'package:restart_tagxi/core/utils/custom_button.dart';
-import 'package:restart_tagxi/core/utils/custom_text.dart';
+import 'package:restart_tagxi/core/utils/custom_snack_bar.dart';
 
 import '../../../../../../common/common.dart';
 import '../../../../../../core/model/user_detail_model.dart';
@@ -77,25 +77,24 @@ class RouteBooking extends StatelessWidget {
                               horizontal: 16, vertical: 12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.borderColors),
+                            color: Theme.of(context).colorScheme.surface,
+                            border: Border.all(
+                                color: Theme.of(context).dividerColor),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                  child: MyText(
-                                text: accBloc.selectedMyRouteAddress.isEmpty
-                                    ? AppLocalizations.of(context)!.addAddress
-                                    : accBloc.selectedMyRouteAddress,
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontSize: 16,
-                                      color: Theme.of(context).primaryColorDark,
-                                    ),
-                                maxLines: 4,
-                              )),
+                                child: Text(
+                                  accBloc.selectedMyRouteAddress.isEmpty
+                                      ? AppLocalizations.of(context)!.addAddress
+                                      : accBloc.selectedMyRouteAddress,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
                               const Icon(Icons.add_location_alt_outlined),
                             ],
                           ),
@@ -113,22 +112,29 @@ class RouteBooking extends StatelessWidget {
                             ? AppColors.red
                             : AppColors.lightGreen,
                         textColor: AppColors.white,
-                        isLoader: accBloc.isLoading,
                         textSize: 18,
+                        isLoader: accBloc.isLoading,
                         onTap: () async {
-                          if (accBloc.currentLatLng != null) {
-                            accBloc.add(EnableMyRouteBookingEvent(
-                              isEnable: (userData!.enableMyRouteBooking == '1')
-                                  ? false
-                                  : true,
-                              currentLat: accBloc.currentLatLng!.latitude,
-                              currentLng: accBloc.currentLatLng!.longitude,
-                              currentLatLng: accBloc.currentLocation,
-                            ));
+                          if (accBloc.selectedMyRouteAddress.isNotEmpty) {
+                            if (accBloc.currentLatLng != null) {
+                              accBloc.add(EnableMyRouteBookingEvent(
+                                isEnable:
+                                    (userData!.enableMyRouteBooking == '1')
+                                        ? false
+                                        : true,
+                                currentLat: accBloc.currentLatLng!.latitude,
+                                currentLng: accBloc.currentLatLng!.longitude,
+                                currentLatLng: accBloc.currentLocation,
+                              ));
+                            }
+                          } else {
+                            showToast(
+                                message: AppLocalizations.of(context)!
+                                    .pleaseAddAddress);
                           }
                         },
                       ),
-                      SizedBox(height: size.width * 0.2),
+                      SizedBox(height: size.width * 0.1),
                     ],
                   ),
                 ),

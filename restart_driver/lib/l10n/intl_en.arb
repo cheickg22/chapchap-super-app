@@ -718,5 +718,8 @@
             "scheduledRideAt": "Scheduled Ride at",
             "biddingRides": "Bidding Rides",
             "changeEmail": "Change Email",
-            "verifyEmailId": "Verify your email id"
+            "verifyEmailId": "Verify your email id",
+            "pleaseAddAddress": "Please add address",
+            "verifyEmailText": "Verify Email",
+            "downloadInvoice": "Download Invoice"
         }

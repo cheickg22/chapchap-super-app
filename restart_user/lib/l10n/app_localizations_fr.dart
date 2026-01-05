@@ -1580,4 +1580,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'Vérifiez votre adresse e-mail';
+
+  @override
+  String get verifyEmailText => 'Vérifier l\'adresse e-mail';
+
+  @override
+  String get deliveryOutStation => 'Poste de livraison';
+
+  @override
+  String get deliveryRental => 'Location de livraison';
+
+  @override
+  String get deliveryRide => 'Livraison';
 }

@@ -28,7 +28,19 @@ class MyRouteMapWidget extends StatelessWidget {
     return BlocProvider(
       create: (context) => AccBloc()..add(AccGetCurrentLocationEvent()),
       child: BlocListener<AccBloc, AccState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          final accBloc = context.read<AccBloc>();
+
+          // Trigger reverse-geocoding for initial location if empty
+          if (accBloc.currentLatLng != null &&
+              (accBloc.selectedMyRouteAddress.isEmpty ||
+                  accBloc.selectedMyRouteAddress == "currentlocation")) {
+            accBloc.add(AccGeocodingLatLngEvent(
+              lat: accBloc.currentLatLng!.latitude,
+              lng: accBloc.currentLatLng!.longitude,
+            ));
+          }
+        },
         child: BlocBuilder<AccBloc, AccState>(
           builder: (context, state) {
             final accBloc = context.read<AccBloc>();
@@ -123,10 +135,10 @@ class MyRouteMapWidget extends StatelessWidget {
                         ),
                         SizedBox(height: size.width * 0.03),
                         CustomButton(
-                          buttonName:
-                              AppLocalizations.of(context)!.confirmLocation,
                           width: size.width,
                           textSize: 18,
+                          buttonName:
+                              AppLocalizations.of(context)!.confirmLocation,
                           isLoader: accBloc.isLoading,
                           onTap: () {
                             Navigator.pop(
@@ -253,7 +265,7 @@ class _FlutterMapWidget extends StatelessWidget {
       children: [
         fm.TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: AppConstants.packageName,
+          userAgentPackageName: 'app.example.com',
         ),
       ],
     );

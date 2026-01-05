@@ -123,8 +123,6 @@ class BookingApi {
     required String goodsQuantity,
     required String offeredRideFare,
     required String polyLine,
-    // required bool isPetAvailable,
-    // required bool isLuggageAvailable,
     required String paidAt,
     required bool isOutstationRide,
     required bool isRoundTrip,
@@ -167,12 +165,8 @@ class BookingApi {
         if (cardToken != null && cardToken.isNotEmpty) 'card_token': cardToken,
         'transport_type':
             (selectedTransportType == 'taxi') ? 'taxi' : 'delivery',
-        'request_eta_amount': (!isEtaRental)
-            // ?  (vehicleData.hasDiscount)
-            //    ? vehicleData.discountTotal
-            //    : vehicleData.total
-            ? vehicleData.total
-            : vehicleData.fareAmount,
+        'request_eta_amount':
+            (!isEtaRental) ? vehicleData.total : vehicleData.fareAmount,
         if (offeredRideFare.isNotEmpty) 'offerred_ride_fare': offeredRideFare,
         if (scheduleDateTime.isNotEmpty) 'is_later': 1,
         if (selectedTransportType == 'taxi' && taxiInstruction.isNotEmpty)
@@ -207,8 +201,6 @@ class BookingApi {
         if (vehicleData.hasDiscount == true)
           'discounted_total': vehicleData.discountTotal,
         'poly_line': polyLine,
-        // 'is_pet_available': isPetAvailable,
-        // 'is_luggage_available': isLuggageAvailable,
         if (!isEtaRental) 'distance': vehicleData.distanceInMeters,
         if (!isEtaRental) 'duration': vehicleData.time.toString(),
         if (isOutstationRide) 'is_out_station': '1',

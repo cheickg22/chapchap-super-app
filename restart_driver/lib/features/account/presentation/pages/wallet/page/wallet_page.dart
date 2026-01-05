@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restart_tagxi/common/common.dart';
@@ -66,46 +68,58 @@ class WalletHistoryPage extends StatelessWidget {
               (route) => false,
             );
           } else if (state is PaymentUpdateState) {
-            Navigator.of(context, rootNavigator: true).popUntil((route) =>
-                route.isFirst ||
-                route.settings.name == WalletHistoryPage.routeName);
+            debugPrint('PaymentUpdateState: ${state.status}');
+
+            if (!context.mounted) return;
+
+            // 1️⃣ Close any open bottom sheet / webview safely
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+
             if (state.status) {
-              if (!context.mounted) return;
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamedAndRemoveUntil(
-                      WalletHistoryPage.routeName, (route) => false);
+              // 2️⃣ SUCCESS → Refresh wallet only
+              final accBloc = context.read<AccBloc>();
+
+              accBloc.showRefresh = false;
+              accBloc.add(GetWalletInitEvent());
+              accBloc.add(GetWalletHistoryListEvent(pageIndex: 1));
+
+              // ❌ DO NOT navigate to WalletHistoryPage again
             } else {
+              // 3️⃣ FAILURE → Show dialog
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (_) {
+                builder: (dialogContext) {
                   return AlertDialog(
                     content: SizedBox(
                       height: size.height * 0.45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset(
                             AppImages.paymentFail,
-                            fit: BoxFit.contain,
                             width: size.width * 0.4,
                           ),
                           SizedBox(height: size.width * 0.02),
                           MyText(
-                            text: AppLocalizations.of(context)!.paymentFailed,
+                            text: AppLocalizations.of(dialogContext)!
+                                .paymentFailed,
                             textStyle: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: size.width * 0.02),
+                          SizedBox(height: size.width * 0.03),
                           CustomButton(
-                            buttonName: AppLocalizations.of(context)!.ok,
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
+                            buttonName: AppLocalizations.of(dialogContext)!.ok,
                             width: size.width * 0.4,
                             height: size.width * 0.12,
+                            onTap: () {
+                              Navigator.of(dialogContext).pop();
+                            },
                           ),
                         ],
                       ),

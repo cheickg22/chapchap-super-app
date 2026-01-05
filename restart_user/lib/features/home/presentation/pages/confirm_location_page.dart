@@ -58,6 +58,8 @@ class _ConfirmLocationPageState extends State<ConfirmLocationPage>
               context.read<HomeBloc>().nearByVechileSubscription?.cancel();
               context.read<HomeBloc>().nearByVechileSubscription = null;
             }
+            // Navigator.pushNamedAndRemoveUntil(
+            //     context, AuthPage.routeName, (route) => false);
             Navigator.pushNamedAndRemoveUntil(
                 context, LoginPage.routeName, (route) => false);
             await AppSharedPreference.setLoginStatus(false);
@@ -364,20 +366,36 @@ class _ConfirmLocationPageState extends State<ConfirmLocationPage>
                         PopupMenuItem(
                             value: MapType.normal,
                             child: MyText(
-                                text: AppLocalizations.of(context)!.normal)),
+                                text: AppLocalizations.of(context)!.normal,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.black))),
                         PopupMenuItem(
                             value: MapType.satellite,
                             child: MyText(
-                                text: AppLocalizations.of(context)!.satellite)),
+                                text: AppLocalizations.of(context)!.satellite,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.black))),
                         PopupMenuItem(
                           value: MapType.terrain,
                           child: MyText(
-                              text: AppLocalizations.of(context)!.terrain),
+                              text: AppLocalizations.of(context)!.terrain,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: AppColors.black)),
                         ),
                         PopupMenuItem(
                           value: MapType.hybrid,
                           child: MyText(
-                              text: AppLocalizations.of(context)!.hybrid),
+                              text: AppLocalizations.of(context)!.hybrid,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: AppColors.black)),
                         ),
                       ],
                     ),

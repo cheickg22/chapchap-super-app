@@ -188,7 +188,6 @@ class AuthBottomSheetWidgetState extends State<AuthBottomSheetWidget>
                     },
                   ),
                 ),
-                // if (widget.showLoginBtn) ...[
                 SizedBox(height: size.width * 0.05),
                 Center(
                   child: CustomButton(

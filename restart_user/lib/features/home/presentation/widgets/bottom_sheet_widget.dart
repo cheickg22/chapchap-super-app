@@ -247,7 +247,11 @@ class BottomSheetWidget extends StatelessWidget {
                             ),
 
                             // ON GOING RIDES
-                            if (homeBloc.isMultipleRide) ...[
+                            if (homeBloc.isMultipleRide &&
+                                context
+                                    .read<HomeBloc>()
+                                    .onGoingRideList
+                                    .isNotEmpty) ...[
                               SizedBox(height: size.width * 0.05),
                               Padding(
                                 padding: EdgeInsets.symmetric(

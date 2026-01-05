@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restart_tagxi/common/app_colors.dart';
@@ -41,11 +39,6 @@ class SupportReplyMessageList extends StatelessWidget {
                   : (supportTicketData.adminDetails != null)
                       ? supportTicketData.adminDetails!.profilePicture
                       : supportTicketData.user!.profilePicture;
-              final senderName = isUser
-                  ? supportTicketData.user!.name
-                  : (supportTicketData.adminDetails != null)
-                      ? supportTicketData.adminDetails!.firstName
-                      : supportTicketData.user!.name;
               return Column(
                 crossAxisAlignment:
                     isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,

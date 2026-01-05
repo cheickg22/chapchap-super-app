@@ -79,19 +79,24 @@ class AuthPage extends StatelessWidget {
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                   context.read<AuthBloc>().formKey.currentState!.reset();
+                  // context.read<AuthBloc>().showLoginBtn = false;
                 },
                 child: Directionality(
                   textDirection: context.read<AuthBloc>().textDirection == 'rtl'
                       ? TextDirection.rtl
                       : TextDirection.ltr,
                   child: Scaffold(
+                    // resizeToAvoidBottomInset: true,
                     body: AuthBodyWidget(cont: context),
                     bottomSheet: AuthBottomSheetWidget(
                         formKey: context.read<AuthBloc>().formKey,
                         emailOrMobile:
                             context.read<AuthBloc>().emailOrMobileController,
-                        continueFunc: () {},
+                        continueFunc: () {
+                          // context.read<AuthBloc>().add(VerifyUserEvent());
+                        },
                         focusNode: context.read<AuthBloc>().textFieldFocus,
+                        // showLoginBtn: context.read<AuthBloc>().showLoginBtn,
                         showLoginBtn: true,
                         isLoginByEmail: context.read<AuthBloc>().isLoginByEmail,
                         countrySelectFunc: () {

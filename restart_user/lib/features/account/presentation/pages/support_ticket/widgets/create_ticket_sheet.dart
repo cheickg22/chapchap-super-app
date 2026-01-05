@@ -106,7 +106,7 @@ class CreateTicketSheet extends StatelessWidget {
                               .map((e) => DropdownMenuItem<TicketNamesList>(
                                     value: e,
                                     child: SizedBox(
-                                      width: size.width * 0.8,
+                                      width: size.width * 0.75,
                                       child: MyText(
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,

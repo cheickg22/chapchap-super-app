@@ -149,6 +149,12 @@ class DeliveryInstructions extends StatelessWidget {
                                 bookingBloc.choosenAddressIndex,
                             newAddress: address,
                           ));
+                          // if (!bookingBloc.dropAddressList
+                          //     .any((element) => element.address.isEmpty)) {
+                          //   bookingBloc.add(ConfirmRideAddressEvent(
+                          //       rideType: transportType,
+                          //       addressList: bookingBloc.dropAddressList));
+                          // }
                           bookingBloc.receiverMobileController.clear();
                           bookingBloc.receiverNameController.clear();
                           bookingBloc.instructionsController.clear();

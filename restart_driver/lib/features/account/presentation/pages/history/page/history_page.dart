@@ -67,7 +67,6 @@ class HistoryPage extends StatelessWidget {
           builder: (context, state) {
             final selectedIndex = context.read<AccBloc>().selectedHistoryType;
             return Scaffold(
-              // backgroundColor: const Color(0xFFF8F9FA),
               appBar: CustomAppBar(
                 title: AppLocalizations.of(context)!.history,
                 automaticallyImplyLeading: true,
@@ -82,13 +81,6 @@ class HistoryPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(12),
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //     color: AppColors.black.withOpacity(0.05),
-                      //     blurRadius: 10,
-                      //     offset: const Offset(0, 2),
-                      //   ),
-                      // ],
                     ),
                     child: Row(
                       children: [

@@ -47,7 +47,7 @@ class SignupMobilePage extends StatelessWidget {
           } else if (state is VerifySuccessState ||
               state is UserNotExistState) {
             final authBloc = context.read<AuthBloc>();
-            final mobileOrEmail = authBloc.selectLoginMethods
+            final mobileOrEmail = arg.mobileOrEmailSignUp
                 ? authBloc.rEmailController.text.trim()
                 : authBloc.rMobileController.text.trim();
             if (mobileOrEmail.isNotEmpty) {
@@ -57,6 +57,7 @@ class SignupMobilePage extends StatelessWidget {
                       dialCode: authBloc.dialCode,
                       countryCode: context.read<AuthBloc>().countryCode,
                       countryFlag: context.read<AuthBloc>().flagImage,
+                      // isLoginByEmail: authBloc.selectLoginMethods,
                       isLoginByEmail: arg.mobileOrEmailSignUp,
                       isOtpVerify: true,
                       userExist: context.read<AuthBloc>().userExist,
@@ -75,7 +76,10 @@ class SignupMobilePage extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: CustomAppBar(
-                title: AppLocalizations.of(context)!.verifyPhone,
+                // title: AppLocalizations.of(context)!.verifyPhone,
+                title: (arg.mobileOrEmailSignUp == false)
+                    ? AppLocalizations.of(context)!.verifyPhone
+                    : AppLocalizations.of(context)!.verifyEmailText,
                 automaticallyImplyLeading: true,
                 titleFontSize: 16,
                 textColor: Theme.of(context).primaryColorDark,
@@ -92,8 +96,10 @@ class SignupMobilePage extends StatelessWidget {
                           height: size.width * 0.4,
                         ),
                         MyText(
-                          text:
-                              AppLocalizations.of(context)!.verifyMobileNumber,
+                          // text: AppLocalizations.of(context)!.verifyMobileNumber,
+                          text: (arg.mobileOrEmailSignUp == false)
+                              ? AppLocalizations.of(context)!.verifyMobileNumber
+                              : AppLocalizations.of(context)!.verifyEmailId,
                           maxLines: 2,
                           textAlign: TextAlign.center,
                           textStyle:
@@ -118,7 +124,11 @@ class SignupMobilePage extends StatelessWidget {
                         SizedBox(
                           height: size.width * 0.05,
                         ),
-                        buildMobileField(context, size),
+                        if (arg.mobileOrEmailSignUp == false) ...[
+                          buildMobileField(context, size),
+                        ] else ...[
+                          buildEmailField(context)
+                        ],
                         SizedBox(
                           height: size.width * 0.05,
                         ),
@@ -377,15 +387,48 @@ class SignupMobilePage extends StatelessWidget {
               final mobileNumber =
                   context.read<AuthBloc>().rMobileController.text.trim();
               final email = context.read<AuthBloc>().rEmailController.text;
+              final bool isEmail = AppValidation.emailValidate(email);
               context.read<AuthBloc>();
-              context.read<AuthBloc>().add(VerifyUserEvent(
-                  mobileOrEmail: (context.read<AuthBloc>().selectLoginMethods)
-                      ? email
-                      : mobileNumber,
-                  loginByMobile: (context.read<AuthBloc>().selectLoginMethods)
-                      ? true
-                      : false,
-                  forgotPassword: false));
+              if (arg.mobileOrEmailSignUp == true) {
+                if (email.isEmpty) {
+                  showToast(message: AppLocalizations.of(context)!.enterEmail);
+                  return;
+                }
+
+                if (!isEmail) {
+                  showToast(
+                      message: AppLocalizations.of(context)!.enterValidEmail);
+                  return;
+                }
+                context.read<AuthBloc>().add(
+                      VerifyUserEvent(
+                        mobileOrEmail: email,
+                        loginByMobile: false, // ❗ Email flow
+                        forgotPassword: false,
+                      ),
+                    );
+              } else {
+                if (mobileNumber.isEmpty) {
+                  showToast(
+                      message: AppLocalizations.of(context)!
+                          .pleaseEnterMobileNumber);
+                  return;
+                }
+
+                if (!AppValidation.mobileNumberValidate(mobileNumber)) {
+                  showToast(
+                      message: AppLocalizations.of(context)!.enterValidMobile);
+                  return;
+                }
+
+                context.read<AuthBloc>().add(
+                      VerifyUserEvent(
+                        mobileOrEmail: mobileNumber,
+                        loginByMobile: true, // ❗ Mobile flow
+                        forgotPassword: false,
+                      ),
+                    );
+              }
             },
           ),
         );

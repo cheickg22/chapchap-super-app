@@ -298,6 +298,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
         for (var element in driverData) {
           if (element['is_active'] == 1 && element['is_available'] == true) {
+            // if (element['transport_type'] == 'taxi' ||
+            //     element['transport_type'] == 'delivery' ||
+            //     element['transport_type'] == 'bidding' ||
+            //     element['transport_type'] == 'both') {
             if ((choosenTransportType == 0 &&
                     element['transport_type'] == 'taxi') ||
                 (choosenTransportType == 1 &&
@@ -638,6 +642,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           message: 'allow location permission to get your current location');
       emit(GetLocationPermissionState());
     }
+
+    // emit(LocateMeState());
   }
 
   // Ride Modules
@@ -696,15 +702,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           mapType = success.data.mapType;
           await AppSharedPreference.setMapType(mapType);
         }
+        // if (mapType != 'google_map') {
         if ((userData!.onTripRequest == null ||
                 userData!.onTripRequest == "") ||
             (userData!.metaRequest == null || userData!.metaRequest == "")) {
           add(LocateMeEvent(mapType: mapType));
         }
+        // }
         if (userData!.enableModulesForApplications == 'taxi' ||
             userData!.enableModulesForApplications == 'both') {
+          // selectedServiceType = 0;
           choosenTransportType = 0;
         } else if (userData!.enableModulesForApplications == 'delivery') {
+          // selectedServiceType = 1;
           choosenTransportType = 1;
         }
 

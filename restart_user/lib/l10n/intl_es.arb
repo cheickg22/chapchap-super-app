@@ -499,5 +499,10 @@
      "preferences": "Preferencias",
      "planYourRide": "Planifica tu viaje",
      "changeEmail": "Cambiar correo electrónico",
-     "verifyEmailId": "Verifica tu correo electrónico"
+     "verifyEmailId": "Verifica tu correo electrónico",
+     "verifyEmailText": "Verificar correo electrónico",
+     "downloadInvoice": "Descargar factura",
+     "deliveryOutStation": "Estación de entrega externa",
+            "deliveryRental": "Alquiler de entrega",
+            "deliveryRide": "Paseo de entrega"
         }

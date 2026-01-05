@@ -1046,4 +1046,19 @@ class AccApi {
       rethrow;
     }
   }
+
+  //download invoice
+  Future invoiceDownloadApiUser({required String journeyId}) async {
+    try {
+      final token = await AppSharedPreference.getToken();
+      Response response = await DioProviderImpl().get(
+        '${ApiEndpoints.downloadInvoiceUser}$journeyId?invoice_type=driver',
+        headers: {'Authorization': token},
+      );
+      return response;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

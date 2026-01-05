@@ -6,6 +6,10 @@ final class HomeInitialState extends HomeState {}
 
 final class LogoutState extends HomeState {}
 
+// final class HomeLoadingStartState extends HomeState {}
+
+// final class HomeLoadingStopState extends HomeState {}
+
 final class HomeUpdateState extends HomeState {}
 
 final class VechileStreamMarkerState extends HomeState {}

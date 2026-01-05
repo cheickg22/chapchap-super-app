@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:restart_tagxi/common/app_constants.dart';
 import 'package:restart_tagxi/common/tobitmap.dart';
 import 'package:restart_tagxi/core/utils/custom_snack_bar.dart';
@@ -38,6 +40,7 @@ import 'package:restart_tagxi/features/account/domain/models/referal_response_mo
 import 'package:restart_tagxi/features/driverprofile/domain/models/service_location_model.dart';
 import 'package:restart_tagxi/features/home/application/home_bloc.dart';
 import 'package:restart_tagxi/features/home/application/usecase/ride_usecases.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:intl/intl.dart';
@@ -462,6 +465,8 @@ class AccBloc extends Bloc<AccEvent, AccState> {
     on<AccGetCurrentLocationEvent>(getCurrentLocation);
     on<AccGetAutoCompleteAddressEvent>(getAutoCompleteAddress);
     on<AccClearAutoCompleteEvent>(clearAutoComplete);
+
+    on<DownloadInvoiceUserEvent>(downloadInvoiceUser);
   }
 
   Future<void> getDirection(AccEvent event, Emitter<AccState> emit) async {
@@ -724,63 +729,69 @@ class AccBloc extends Bloc<AccEvent, AccState> {
   Future<void> _onTapChange(
       OnTapChangeEvent event, Emitter<AccState> emit) async {}
 
-  //ontap event
-  Future<void> addBankFunc(AddBankEvent event, Emitter<AccState> emit) async {
+  Future<void> addBankFunc(
+    AddBankEvent event,
+    Emitter<AccState> emit,
+  ) async {
     if (addBankInfo) {
       addBankInfo = false;
     } else {
       if (event.choosen != null) {
         choosenBankMethod = event.choosen;
       }
+
       choosenBankList = bankDetails[choosenBankMethod!]['fields']['data'];
-      bankDetailsText.clear();
-      // ignore: unused_local_variable
-      for (var e in choosenBankList) {
-        bankDetailsText.add(TextEditingController());
-      }
-      if (bankDetails[choosenBankMethod!]['driver_bank_info']['data'] != null &&
-          bankDetails[choosenBankMethod!]["driver_bank_info"]['data']
-                  .toString() !=
-              '[]') {
-        if (bankDetails[choosenBankMethod!]['method_name'] == 'bank account') {
-          bankAccountName.text = bankDetails[choosenBankMethod!]
-              ['driver_bank_info']['data']['account_number'];
-          bankIfsc.text = bankDetails[choosenBankMethod!]['driver_bank_info']
-              ['data']['branch_identification_code'];
-        } else {
-          upiText.text = bankDetails[choosenBankMethod!]['driver_bank_info']
-                  ['data']['upi']
-              .toString();
-        }
-      } else {
-        // editBank = true;
-        editBank = false;
-      }
+
+      // 🔥 fresh controllers
+      bankDetailsText = List.generate(
+        choosenBankList.length,
+        (_) => TextEditingController(),
+      );
+
       addBankInfo = true;
+      editBank = false;
     }
+
     emit(UpdateState());
   }
 
   List bankDetailsText = [];
 
-  //ontap event
-  Future<void> editBankFunc(EditBankEvent event, Emitter<AccState> emit) async {
+  Future<void> editBankFunc(
+    EditBankEvent event,
+    Emitter<AccState> emit,
+  ) async {
     if (editBank) {
       editBank = false;
     } else {
       if (event.choosen != null) {
         choosenBankMethod = event.choosen;
       }
+
       choosenBankList = bankDetails[choosenBankMethod!]['fields']['data'];
+
+      final savedData =
+          bankDetails[choosenBankMethod!]['driver_bank_info']['data'];
+
       bankDetailsText.clear();
-      // ignore: unused_local_variable
-      for (var e in choosenBankList) {
-        bankDetailsText.add(TextEditingController(
-            text: bankDetails[choosenBankMethod!]['driver_bank_info']['data'][0]
-                ['value']));
+
+      for (var field in choosenBankList) {
+        final fieldId = field['id'];
+
+        final matchedValue = savedData.firstWhere(
+          (e) => e['field_id'] == fieldId,
+          orElse: () => {'value': ''},
+        );
+
+        bankDetailsText.add(
+          TextEditingController(text: matchedValue['value'] ?? ''),
+        );
       }
+
       editBank = true;
+      addBankInfo = false;
     }
+
     emit(UpdateState());
   }
 
@@ -1592,34 +1603,46 @@ class AccBloc extends Bloc<AccEvent, AccState> {
     );
   }
 
-// get bank details
   FutureOr<void> getBankDetails(
-      GetBankDetails event, Emitter<AccState> emit) async {
-    final data = await serviceLocator<AccUsecase>().getBankDetails();
-    data.fold(
+    GetBankDetails event,
+    Emitter<AccState> emit,
+  ) async {
+    final result = await serviceLocator<AccUsecase>().getBankDetails();
+
+    result.fold(
       (error) {
         emit(ShowErrorState(message: error.message.toString()));
       },
       (success) {
         bankDetails = success.data;
+
+        // 🔥 REQUIRED to rebuild UI
+        emit(UpdateState());
       },
     );
   }
 
-//update bank details
   FutureOr<void> updateBankDetails(
-      UpdateBankDetailsEvent event, Emitter<AccState> emit) async {
+    UpdateBankDetailsEvent event,
+    Emitter<AccState> emit,
+  ) async {
     emit(WithdrawDataLoadingStartState());
-    final data =
-        await serviceLocator<AccUsecase>().updateBankDetails(body: event.body);
-    data.fold(
-      (error) {
+
+    final result = await serviceLocator<AccUsecase>().updateBankDetails(
+      body: event.body,
+    );
+
+    await result.fold(
+      (error) async {
         emit(ShowErrorState(message: error.message.toString()));
       },
-      (success) {
+      (success) async {
         editBank = false;
         addBankInfo = false;
-        add(GetBankDetails());
+
+        // 🔥 refresh data FIRST
+        await Future.microtask(() => add(GetBankDetails()));
+
         emit(BankUpdateSuccessState());
       },
     );
@@ -1656,10 +1679,6 @@ class AccBloc extends Bloc<AccEvent, AccState> {
         // Emit success state with the updated data
 
         emit(UpdateState());
-        // emit(WalletHistorySuccessState(
-        //   walletHistory: withdrawData,
-        //   pagination: success.pagination,
-        // ));
       },
     );
     emit(UpdateState());
@@ -2903,16 +2922,25 @@ class AccBloc extends Bloc<AccEvent, AccState> {
       },
       (response) {
         isLoading = false;
-        emit(UpdateState());
+        // emit(UpdateState());
         if (response.success) {
-          showToast(
-              message: AppLocalizations.of(navigatorKey.currentState!.context)!
-                  .myRouteEnabledSuccessfully);
+          // showToast(message: AppLocalizations.of(navigatorKey.currentState!.context)!.myRouteEnabledSuccessfully);
+          if (response.message == 'enabled-my-route-succesfully') {
+            showToast(
+                message:
+                    AppLocalizations.of(navigatorKey.currentState!.context)!
+                        .myRouteEnabledSuccessfully);
+          } else {
+            showToast(
+                message:
+                    AppLocalizations.of(navigatorKey.currentState!.context)!
+                        .myrouteDisabledSuccessfully);
+          }
         } else {
-          showToast(
-              message: AppLocalizations.of(navigatorKey.currentState!.context)!
-                  .myrouteDisabledSuccessfully);
+          // showToast(message: AppLocalizations.of(navigatorKey.currentState!.context)!.myrouteDisabledSuccessfully);
+          showToast(message: response.message.toString());
         }
+        emit(UpdateState());
         add(AccGetUserDetailsEvent());
         emit(EnableMyRouteBookingSuccessState(
           isEnable: event.isEnable,
@@ -3154,6 +3182,68 @@ class AccBloc extends Bloc<AccEvent, AccState> {
           referralResponse = success;
         }
         emit(ReferralResponseSuccessState());
+      },
+    );
+  }
+
+  FutureOr<void> downloadInvoiceUser(
+      DownloadInvoiceUserEvent event, Emitter<AccState> emit) async {
+    final data = await serviceLocator<AccUsecase>()
+        .invoiceDownloadUser(journeyId: event.journeyId);
+
+    data.fold(
+      (error) {
+        debugPrint(error.toString());
+        // emit(state.copyWith(status: HistoryStatus.invoiceDownloadError));
+        emit(InvoiceDownloadFailureState());
+        showToast(message: error.message ?? "");
+      },
+      (success) async {
+        if (success["success"] && success["invoice_url"] != null) {
+          final invoiceUrl = success["invoice_url"];
+          try {
+            if (Platform.isAndroid) {
+              if (!await Permission.manageExternalStorage.isGranted) {
+                await Permission.manageExternalStorage.request();
+              }
+            }
+
+            Directory downloadsDir;
+            if (Platform.isAndroid) {
+              downloadsDir = Directory("/storage/emulated/0/Download");
+            } else {
+              downloadsDir = await getApplicationDocumentsDirectory();
+            }
+
+            if (!await downloadsDir.exists()) {
+              await downloadsDir.create(recursive: true);
+            }
+
+            final timestamp = DateTime.now().millisecondsSinceEpoch;
+            final filePath =
+                "${downloadsDir.path}/invoice_${event.journeyId}_$timestamp.pdf";
+
+            final dio = Dio();
+            await dio.download(invoiceUrl, filePath);
+
+            debugPrint("Invoice saved at: $filePath");
+
+            await Share.shareXFiles([XFile(filePath)]);
+
+            // emit(state.copyWith(status: HistoryStatus.invoiceDownloadSuccess));
+            emit(InvoiceDownloadSuccessState());
+          } catch (e) {
+            debugPrint("PDF download error: $e");
+            // emit(state.copyWith(status: HistoryStatus.invoiceDownloadError));
+            emit(InvoiceDownloadFailureState());
+          }
+        } else {
+          // emit(state.copyWith(status: HistoryStatus.invoiceDownloadError));
+          emit(InvoiceDownloadFailureState());
+          showToast(message: 'invoiceUrlNotAvailable'
+              // message: AppLocalizations.of(context)!.invoiceUrlNotAvailable
+              );
+        }
       },
     );
   }

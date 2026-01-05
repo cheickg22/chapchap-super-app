@@ -245,6 +245,7 @@ class BiddingCreateRequestEvent extends BookingEvent {
   final String scheduleDateTimeForReturn;
   final String? parcelType;
   final List preferences;
+  final List preferencesIcons;
 
   BiddingCreateRequestEvent({
     required this.userData,
@@ -267,6 +268,7 @@ class BiddingCreateRequestEvent extends BookingEvent {
     required this.scheduleDateTimeForReturn,
     this.parcelType,
     required this.preferences,
+    required this.preferencesIcons,
   });
 }
 
@@ -537,7 +539,9 @@ class UpdateMapTypeEvent extends BookingEvent {
 class SelectedPreferenceEvent extends BookingEvent {
   final int prefId;
   final bool isSelected;
-  SelectedPreferenceEvent({required this.prefId, required this.isSelected});
+  final String prefIcon;
+  SelectedPreferenceEvent(
+      {required this.prefId, required this.isSelected, required this.prefIcon});
 }
 
 class ConfirmPreferenceSelectionEvent extends BookingEvent {

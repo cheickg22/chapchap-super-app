@@ -260,6 +260,7 @@ class RegisterPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
+                      // context.read<AuthBloc>().add(ImageUpdateEvent());
                       _showImageSourceSheet(context);
                     },
                     child: Container(

@@ -1,9 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, library_prefixes
+// ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,17 +14,21 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:restart_tagxi/common/tobitmap.dart';
 import 'package:restart_tagxi/core/utils/custom_snack_bar.dart';
+// ignore: library_prefixes
 import 'package:restart_tagxi/features/account/domain/models/referal_response_model.dart'
     as referralModel;
+// ignore: library_prefixes
 import 'package:restart_tagxi/features/account/domain/models/referalhistory_model.dart'
     as historyModel;
 import 'package:restart_tagxi/features/account/domain/models/service_location_model.dart';
 import 'package:restart_tagxi/features/account/domain/models/ticket_list_model.dart';
 import 'package:restart_tagxi/features/account/domain/models/ticket_names_model.dart';
 import 'package:restart_tagxi/features/account/domain/models/view_ticket_model.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../common/common.dart';
@@ -299,6 +304,8 @@ class AccBloc extends Bloc<AccEvent, AccState> {
     on<GetServiceLocationEvent>(getServiceLocation);
     on<DownloadInvoiceEvent>(downloadInvoice);
     on<GetHtmlStringEvent>(getHtmlString);
+
+    on<DownloadInvoiceUserEvent>(downloadInvoiceUser);
   }
 
   //Get Direction
@@ -1880,6 +1887,61 @@ class AccBloc extends Bloc<AccEvent, AccState> {
           referralResponse = success;
         }
         emit(ReferralResponseSuccessState());
+      },
+    );
+  }
+
+  FutureOr<void> downloadInvoiceUser(
+      DownloadInvoiceUserEvent event, Emitter<AccState> emit) async {
+    final data = await serviceLocator<AccUsecase>()
+        .invoiceDownloadUser(journeyId: event.journeyId);
+
+    data.fold(
+      (error) {
+        debugPrint(error.toString());
+        emit(InvoiceDownloadFailureState());
+        showToast(message: error.message ?? "");
+      },
+      (success) async {
+        if (success["success"] && success["invoice_url"] != null) {
+          final invoiceUrl = success["invoice_url"];
+          try {
+            if (Platform.isAndroid) {
+              if (!await Permission.manageExternalStorage.isGranted) {
+                await Permission.manageExternalStorage.request();
+              }
+            }
+
+            Directory downloadsDir;
+            if (Platform.isAndroid) {
+              downloadsDir = Directory("/storage/emulated/0/Download");
+            } else {
+              downloadsDir = await getApplicationDocumentsDirectory();
+            }
+
+            if (!await downloadsDir.exists()) {
+              await downloadsDir.create(recursive: true);
+            }
+
+            final timestamp = DateTime.now().millisecondsSinceEpoch;
+            final filePath =
+                "${downloadsDir.path}/invoice_${event.journeyId}_$timestamp.pdf";
+
+            final dio = Dio();
+            await dio.download(invoiceUrl, filePath);
+
+            debugPrint("Invoice saved at: $filePath");
+
+            await Share.shareXFiles([XFile(filePath)]);
+            emit(InvoiceDownloadSuccessState());
+          } catch (e) {
+            debugPrint("PDF download error: $e");
+            emit(InvoiceDownloadFailureState());
+          }
+        } else {
+          emit(InvoiceDownloadFailureState());
+          showToast(message: 'invoice Url Not Available');
+        }
       },
     );
   }

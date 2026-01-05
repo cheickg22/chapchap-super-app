@@ -80,12 +80,6 @@ class TripEarningsWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              // CustomPaint(
-              //   painter: DashedLinePainter(),
-              //   child: Container(
-              //     height: 2,
-              //   ),
-              // ),
               if (arg.historyData.requestBill.data.driverTips != "0")
                 FareBreakup(
                   showBorder: false,
@@ -225,12 +219,6 @@ class TripEarningsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              // CustomPaint(
-              //   painter: DashedLinePainter(),
-              //   child: Container(
-              //     height: 2,
-              //   ),
-              // ),
               if (arg.historyData.requestBill.data.promoDiscount != 0)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5),
@@ -270,12 +258,6 @@ class TripEarningsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              // CustomPaint(
-              //   painter: DashedLinePainter(),
-              //   child: Container(
-              //     height: 2,
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Column(
@@ -284,6 +266,7 @@ class TripEarningsWidget extends StatelessWidget {
                       height: size.width * 0.05,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         MyText(
                           text: AppLocalizations.of(context)!.tripEarnings,

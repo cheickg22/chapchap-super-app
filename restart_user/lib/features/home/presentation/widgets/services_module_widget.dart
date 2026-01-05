@@ -317,7 +317,7 @@ class ServicesModuleWidget extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                    color: Theme.of(context).primaryColorDark,
+                                    color: AppColors.black,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                   ),

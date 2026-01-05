@@ -954,4 +954,29 @@ class AccRepositoryImpl implements AccRepository {
     }
     return Right(referralResponse);
   }
+
+  @override
+  Future<Either<Failure, dynamic>> invoiceDownloadUser(
+      {required String journeyId}) async {
+    dynamic responseModel;
+    try {
+      Response response =
+          await _accApi.invoiceDownloadApiUser(journeyId: journeyId);
+      if (response.data == null || response.data == '') {
+        return Left(GetDataFailure(message: 'User bad request'));
+      } else if (response.data.toString().contains('error')) {
+        return Left(GetDataFailure(message: response.data['error'].toString()));
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
+        return Left(GetDataFailure(message: response.data["message"]));
+      } else {
+        responseModel = response.data;
+      }
+    } on FetchDataException catch (e) {
+      debugPrint('getUserHistoryDetails Error: $e');
+      return Left(GetDataFailure(message: e.message));
+    } on BadRequestException catch (e) {
+      return Left(InPutDataFailure(message: e.message));
+    }
+    return Right(responseModel);
+  }
 }

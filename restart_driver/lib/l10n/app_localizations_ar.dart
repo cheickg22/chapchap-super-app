@@ -1867,7 +1867,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get savedCards => 'البطاقات المحفوظة';
 
   @override
-  String get downloadInvoice => 'تنزيل الفاتورة';
+  String get downloadInvoice => 'تحميل الفاتورة';
 
   @override
   String get invoiceSendContent => 'إرسال الفاتورة إلى بريدك الإلكتروني المسجل';
@@ -2213,4 +2213,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'تحقق من معرف البريد الإلكتروني الخاص بك';
+
+  @override
+  String get pleaseAddAddress => 'الرجاء إضافة العنوان';
+
+  @override
+  String get verifyEmailText => 'تأكيد البريد الإلكتروني';
 }

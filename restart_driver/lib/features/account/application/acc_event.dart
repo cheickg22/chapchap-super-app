@@ -781,3 +781,9 @@ class RouteBookingInitEvent extends AccEvent {
 
 //referal response
 class ReferralResponseEvent extends AccEvent {}
+
+class DownloadInvoiceUserEvent extends AccEvent {
+  final String journeyId;
+
+  DownloadInvoiceUserEvent({required this.journeyId});
+}

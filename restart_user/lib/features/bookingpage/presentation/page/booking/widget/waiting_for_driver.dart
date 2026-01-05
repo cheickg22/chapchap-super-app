@@ -300,7 +300,7 @@ class WaitingForDriverConfirmation extends StatelessWidget {
                       color: Theme.of(context).primaryColorDark,
                       fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: size.width * 0.03),
+                SizedBox(height: size.width * 0.05),
                 InkWell(
                   onTap: () {
                     showModalBottomSheet(
@@ -418,30 +418,27 @@ class WaitingForDriverConfirmation extends StatelessWidget {
                       color: AppColors.red,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 6),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.cancel_outlined,
-                                  color: AppColors.white),
-                              SizedBox(width: size.width * 0.025),
-                              MyText(
-                                text: AppLocalizations.of(context)!.cancelRide,
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.white),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    padding: EdgeInsets.all(size.width * 0.02),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.cancel_outlined,
+                                color: AppColors.white),
+                            SizedBox(width: size.width * 0.025),
+                            MyText(
+                              text: AppLocalizations.of(context)!.cancelRide,
+                              textStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.white),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),

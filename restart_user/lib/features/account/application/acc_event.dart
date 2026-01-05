@@ -505,3 +505,9 @@ class ReferralTabChangeEvent extends AccEvent {
 
   ReferralTabChangeEvent({required this.showReferralHistory});
 }
+
+class DownloadInvoiceUserEvent extends AccEvent {
+  final String journeyId;
+
+  DownloadInvoiceUserEvent({required this.journeyId});
+}

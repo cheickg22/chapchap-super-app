@@ -921,7 +921,10 @@ class OnRideWidget extends StatelessWidget {
                                                                                     if (current != null) {
                                                                                       final Uri googleMapsUri = Uri.parse('https://www.google.com/maps/dir/?api=1'
                                                                                           '&origin=${current.latitude},${current.longitude}'
-                                                                                          '&waypoints=${userData!.onTripRequest!.requestStops[i]['latitude']} ${userData!.onTripRequest!.requestStops[i]['longitude']}');
+                                                                                          // '&destination=${userData!.onTripRequest!.dropLat},${userData!.onTripRequest!.dropLng}'
+                                                                                          '&waypoints=${userData!.onTripRequest!.requestStops[i]['latitude']} ${userData!.onTripRequest!.requestStops[i]['longitude']}'
+                                                                                          // '${wayPoint.isNotEmpty ? '&waypoints=$wayPoint' : ''}'
+                                                                                          );
 
                                                                                       if (await canLaunchUrl(googleMapsUri)) {
                                                                                         await launchUrl(
@@ -1500,14 +1503,12 @@ class OnRideWidget extends StatelessWidget {
                                                 .requestPreferences.data.length;
                                         i++) ...[
                                       Container(
-                                        margin:
-                                            EdgeInsets.all(size.width * 0.0025),
                                         width: 16,
                                         height: 16,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                        padding:
+                                            EdgeInsets.all(size.width * 0.005),
+                                        decoration: const BoxDecoration(
+                                          color: AppColors.white,
                                         ),
                                         child: CachedNetworkImage(
                                           imageUrl: userData!.onTripRequest!
@@ -1668,6 +1669,10 @@ class OnRideWidget extends StatelessWidget {
                                     fontSize: 16,
                                     color: AppColors.primary,
                                   ),
+                          // textStyle: AppTextStyle.boldStyle().copyWith(
+                          //   color: AppColors.primary,
+                          //   fontSize: 16,
+                          // ),
                         ),
                         onTap: () {
                           context.read<HomeBloc>().add(AdditionalChargeEvent());

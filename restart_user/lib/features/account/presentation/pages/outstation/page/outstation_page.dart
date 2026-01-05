@@ -563,7 +563,8 @@ Widget _buildOutstationTripDetails(
               mainAxisSize: MainAxisSize.min,
               children: [
                 MyText(
-                  text: (history.isRoundTrip?.isNotEmpty == true)
+                  // text: (history.isRoundTrip?.isNotEmpty == true)
+                  text: (history.isOutStation == 1 && history.isRoundTrip != '')
                       ? AppLocalizations.of(context)!.roundTrip
                       : AppLocalizations.of(context)!.oneWayTrip,
                   textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -572,7 +573,8 @@ Widget _buildOutstationTripDetails(
                         color: AppColors.yellowColor,
                       ),
                 ),
-                if (history.isRoundTrip?.isNotEmpty == true)
+                // if (history.isRoundTrip?.isNotEmpty == true)
+                if (history.isOutStation == 1 && history.isRoundTrip != '')
                   const Padding(
                     padding: EdgeInsets.only(left: 4),
                     child: Icon(Icons.import_export,

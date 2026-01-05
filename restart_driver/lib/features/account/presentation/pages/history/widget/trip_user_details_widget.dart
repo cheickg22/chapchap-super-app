@@ -23,6 +23,7 @@ class TripUserDetailsWidget extends StatelessWidget {
           return Container(
             padding: EdgeInsets.all(size.width * 0.04),
             decoration: BoxDecoration(
+                // color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(width: 1, color: AppColors.borderColor)),
             child: Column(

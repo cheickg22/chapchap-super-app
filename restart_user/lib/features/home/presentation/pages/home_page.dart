@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // && Platform.isAndroid
     if (state == AppLifecycleState.paused) {
       if (HomeBloc().nearByVechileSubscription != null) {
         HomeBloc().nearByVechileSubscription?.pause();
@@ -286,6 +287,7 @@ class _HomePageState extends State<HomePage>
                         droplat: '',
                         droplng: '',
                         userData: homeBloc.userData!,
+                        // transportType: homeBloc.userData!.showTaxiRentalRide ? 'taxi' :homeBloc.userData!.showDeliveryRentalRide ? 'delivery' : '' ,
                         transportType: homeBloc.transportType,
                         pickupAddressList: homeBloc.pickupAddressList,
                         stopAddressList: [],
@@ -307,6 +309,7 @@ class _HomePageState extends State<HomePage>
                   isEditAddress: false,
                   isOutstationRide: false,
                   mapType: homeBloc.mapType,
+                  // transportType: ''
                   transportType: homeBloc.transportType,
                 )).then(
               (value) {

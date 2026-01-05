@@ -669,11 +669,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         add(GetUserEvent());
       },
     );
-    // } else {
-    //   showToast(message: 'Select Profile Image');
-    //   isLoading = false;
-    //   emit(LoginFailureState());
-    // }
   }
 
   Future<void> _registerInit(

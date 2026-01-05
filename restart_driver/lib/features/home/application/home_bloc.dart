@@ -261,6 +261,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<int> selectedPreferenceDetailsList = [];
 
   List<int> tempSelectPreference = [];
+  double distanceValue = 0.0;
+  bool showBidRideListPage = false;
 
   HomeBloc() : super(HomeInitialState()) {
     distanceBetweenList = _buildDefaultDistanceList();
@@ -1206,7 +1208,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ShowBiddingPageEvent event, Emitter<HomeState> emit) async {
     if (showBiddingPage) {
       showBiddingPage = false;
+      showBidRideListPage = false;
     } else {
+      showBidRideListPage = true;
       showBiddingPage = true;
       showOutstationWidget = false;
     }
@@ -2519,7 +2523,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       },
       (success) {
-        printWrapped('text 777777777777 --------- ');
         isLoading = false;
         emit(LoadingStopState());
         emit(UpdateState());
@@ -2542,7 +2545,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         // paymentChanged = '';
         add(UpdateEvent());
         add(GetUserDetailsEvent(isRideEnd: true));
-        printWrapped('text 888888888888888 --------- ');
       },
     );
   }
@@ -5306,16 +5308,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     // add(UpdatePreferencesEvent(id: selectedPreferenceDetailsList));
     add(UpdateEvent());
   }
-
-// Timer management for automatic user details API calls
-// void startUserDetailsTimer() {
-//   stopUserDetailsTimer(); // Cancel any existing timer
-
-//   userDetailsTimer = Timer.periodic(const Duration(seconds: 12), (timer) {
-//     add(GetUserDetailsEvent());
-//     print('object GetUserDetailsEvent 212121 ----- ');
-//   });
-// }
 
   void stopUserDetailsTimer() {
     if (userDetailsTimer != null && userDetailsTimer!.isActive) {

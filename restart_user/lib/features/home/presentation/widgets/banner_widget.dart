@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restart_tagxi/common/app_colors.dart';
+import 'package:restart_tagxi/common/common.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../application/home_bloc.dart';
 
@@ -24,26 +27,47 @@ class BannerWidget extends StatelessWidget {
                   items: List.generate(
                     context.read<HomeBloc>().userData!.bannerImage.data.length,
                     (index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: CachedNetworkImage(
-                          imageUrl: context
+                      return InkWell(
+                        onTap: () async {
+                          final String url = context
                               .read<HomeBloc>()
                               .userData!
                               .bannerImage
                               .data[index]
-                              .image,
-                          // height: size.width * 0.2,
-                          width: size.width,
-                          fit: BoxFit.fill,
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) => const Center(
-                            child: Text(
-                              "",
-                              style: TextStyle(
-                                color: Colors.white,
+                              .imageUrl; // 👈 banner click URL
+
+                          if (url.isNotEmpty) {
+                            final Uri uri = Uri.parse(url);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(
+                                uri,
+                                mode: LaunchMode
+                                    .externalApplication, // 👈 open in browser
+                              );
+                            }
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: CachedNetworkImage(
+                            imageUrl: context
+                                .read<HomeBloc>()
+                                .userData!
+                                .bannerImage
+                                .data[index]
+                                .image,
+                            // height: size.width * 0.2,
+                            width: size.width,
+                            fit: BoxFit.fill,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) => const Center(
+                              child: Text(
+                                "",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -95,7 +119,7 @@ class BannerWidget extends StatelessWidget {
                                 color: context.read<HomeBloc>().bannerIndex ==
                                         index
                                     ? Theme.of(context).primaryColor
-                                    : Theme.of(context).primaryColorLight),
+                                    : AppColors.greyHeader),
                           ),
                         );
                       },

@@ -67,7 +67,8 @@ class QuickActionsWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (userData!.showInstantRideFeatureForMobileApp == '1') ...[
+                  if (userData!.showInstantRideFeatureForMobileApp == '1' &&
+                      userData!.active) ...[
                     SizedBox(height: size.width * 0.05),
                     InkWell(
                       onTap: () {

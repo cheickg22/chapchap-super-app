@@ -22,6 +22,8 @@ class SelectPaymentMethodWidget extends StatelessWidget {
           return SafeArea(
             child: Container(
               width: size.width,
+              // height: size.height * 0.5,
+              // padding: EdgeInsets.all(size.width * 0.05),
               decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: const BorderRadius.only(

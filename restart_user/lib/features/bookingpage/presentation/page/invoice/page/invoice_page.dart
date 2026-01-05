@@ -329,20 +329,45 @@ class InvoicePage extends StatelessWidget {
                                               ),
                                             ),
                                             MyText(
-                                              text: (bookingBloc.requestData!
-                                                          .isOutStation ==
-                                                      '1')
-                                                  ? AppLocalizations.of(
-                                                          context)!
-                                                      .outStation
-                                                  : (bookingBloc.requestData!
-                                                          .isRental)
-                                                      ? AppLocalizations.of(
-                                                              context)!
-                                                          .rental
-                                                      : AppLocalizations.of(
-                                                              context)!
-                                                          .regular,
+                                              text: (bookingBloc.requestData!.isOutStation == '0' &&
+                                                      bookingBloc.requestData!.isRental ==
+                                                          false &&
+                                                      bookingBloc.requestData!
+                                                              .goodsType ==
+                                                          '-')
+                                                  ? AppLocalizations.of(context)!
+                                                      .regular
+                                                  : (bookingBloc.requestData!.isOutStation == '0' &&
+                                                          bookingBloc
+                                                                  .requestData!
+                                                                  .isRental ==
+                                                              false &&
+                                                          bookingBloc
+                                                                  .requestData!
+                                                                  .goodsType !=
+                                                              '-')
+                                                      ? AppLocalizations.of(context)!
+                                                          .delivery
+                                                      : (bookingBloc.requestData!.isOutStation == '0' &&
+                                                              bookingBloc
+                                                                      .requestData!
+                                                                      .isRental ==
+                                                                  true &&
+                                                              bookingBloc
+                                                                      .requestData!
+                                                                      .goodsType ==
+                                                                  '-')
+                                                          ? AppLocalizations.of(context)!
+                                                              .rental
+                                                          : (bookingBloc.requestData!.isOutStation == '0' &&
+                                                                  bookingBloc.requestData!.isRental == true &&
+                                                                  bookingBloc.requestData!.goodsType != '-')
+                                                              ? AppLocalizations.of(context)!.deliveryRental
+                                                              : (bookingBloc.requestData!.isOutStation == '1' && bookingBloc.requestData!.isRental == false && bookingBloc.requestData!.goodsType == '-')
+                                                                  ? AppLocalizations.of(context)!.outStation
+                                                                  : (bookingBloc.requestData!.isOutStation == '1' && bookingBloc.requestData!.isRental == false && bookingBloc.requestData!.goodsType != '-')
+                                                                      ? AppLocalizations.of(context)!.deliveryOutStation
+                                                                      : '',
                                               textStyle: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium!

@@ -23,7 +23,6 @@ class LoaderBloc extends Bloc<LoaderEvent, LoaderState> {
   }
 
   bool? locationApproved;
-  // bool isOwnerEnabled = false;
   String textDirection = 'ltr';
 
   recheckLocationPerm() {

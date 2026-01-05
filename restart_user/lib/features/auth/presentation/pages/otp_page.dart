@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -82,7 +80,8 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin {
                 isForgotPassword: false,
                 mobileOrEmail: widget.arg.mobileOrEmail,
                 dialCode: widget.arg.dialCode,
-                isLoginByEmail: authBloc.selectLoginMethods,
+                // isLoginByEmail: authBloc.selectLoginMethods,
+                isLoginByEmail: widget.arg.isLoginByEmail,
                 context: context,
               ),
             );
@@ -168,29 +167,34 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin {
                                 children: [
                                   Row(
                                     children: [
-                                      MyText(
-                                        text: widget.arg.dialCode,
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                                fontSize: 18),
-                                      ),
-                                      MyText(
-                                        text: widget.arg.mobileOrEmail,
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .primaryColorDark,
-                                                fontSize: (widget.arg
-                                                            .isLoginByEmail ==
-                                                        false)
-                                                    ? 18
-                                                    : 16),
+                                      if ((widget.arg.isLoginByEmail == false))
+                                        MyText(
+                                          text: widget.arg.dialCode,
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                  color: Theme.of(context)
+                                                      .primaryColorDark,
+                                                  fontSize: 18),
+                                        ),
+                                      SizedBox(
+                                        width: size.width * 0.5,
+                                        child: MyText(
+                                          text: widget.arg.mobileOrEmail,
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                  color: Theme.of(context)
+                                                      .primaryColorDark,
+                                                  fontSize: (widget.arg
+                                                              .isLoginByEmail ==
+                                                          false)
+                                                      ? 18
+                                                      : 16),
+                                          maxLines: 2,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -199,14 +203,18 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin {
                                       Navigator.pop(context);
                                     },
                                     child: MyText(
-                                      text: AppLocalizations.of(context)!
-                                          .changeNumber,
+                                      // text: AppLocalizations.of(context)!.changeNumber,
+                                      text: (widget.arg.isLoginByEmail == false)
+                                          ? AppLocalizations.of(context)!
+                                              .changeNumber
+                                          : AppLocalizations.of(context)!
+                                              .changeEmail,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
                                           .copyWith(
                                               color: AppColors.primary,
-                                              fontSize: 12),
+                                              fontSize: 11),
                                     ),
                                   ),
                                 ],
@@ -341,6 +349,7 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin {
                 child: MyText(
                   text: AppLocalizations.of(context)!.resendOtp,
                   textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        // ignore: deprecated_member_use
                         color: context.read<AuthBloc>().timerDuration != 0
                             ? AppColors.primary.withOpacity(0.5)
                             : AppColors.primary,
@@ -370,6 +379,7 @@ class _OtpPageState extends State<OtpPage> with SingleTickerProviderStateMixin {
                     ConfirmOrVerifyOTPEvent(
                       isUserExist: widget.arg.userExist,
                       isLoginByEmail: widget.arg.isLoginByEmail,
+                      // isLoginByEmail: context.read<AuthBloc>().selectLoginMethods,
                       isOtpVerify: context.read<AuthBloc>().isOtpVerify,
                       isForgotPasswordVerify: false,
                       mobileOrEmail: widget.arg.mobileOrEmail,

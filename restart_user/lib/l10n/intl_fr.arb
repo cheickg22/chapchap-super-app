@@ -500,5 +500,10 @@
   "preferences": "Préférences",
   "planYourRide": "Planifiez votre trajet",
   "changeEmail": "Changer l’e-mail",
-  "verifyEmailId": "Vérifiez votre adresse e-mail"
+  "verifyEmailId": "Vérifiez votre adresse e-mail",
+  "verifyEmailText": "Vérifier l'adresse e-mail",
+  "downloadInvoice": "Télécharger la facture",
+  "deliveryOutStation": "Poste de livraison",
+            "deliveryRental": "Location de livraison",
+            "deliveryRide": "Livraison"
 }

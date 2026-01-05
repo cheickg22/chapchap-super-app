@@ -718,5 +718,8 @@
             "scheduledRideAt": "Planlı Sürüş",
             "biddingRides": "Hərrac səfərləri",
             "changeEmail": "E-poçtu dəyiş",
-            "verifyEmailId": "E-poçt ünvanınızı doğrulayın"
+            "verifyEmailId": "E-poçt ünvanınızı doğrulayın",
+            "pleaseAddAddress": "Ünvan əlavə edin",
+            "verifyEmailText": "E-poçtu təsdiqləyin",
+            "downloadInvoice": "Fakturanı yüklə"
         }

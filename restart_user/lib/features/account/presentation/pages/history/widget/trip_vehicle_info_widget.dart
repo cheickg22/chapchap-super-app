@@ -97,22 +97,51 @@ class TripVehicleInfoWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           MyText(
-                            text: (arg.historyData.isRental == false)
-                                ? (arg.historyData.isOutStation == 1)
-                                    ? AppLocalizations.of(context)!.outStation
-                                    : (arg.historyData.isLater == true)
-                                        ? AppLocalizations.of(context)!
-                                            .rideLater
-                                        : AppLocalizations.of(context)!.regular
-                                : '${AppLocalizations.of(context)!.rental} - ${arg.historyData.rentalPackageName}',
+                            text: (arg.historyData.isOutStation == 0 &&
+                                    arg.historyData.isRental == false &&
+                                    arg.historyData.goodsType == '-')
+                                ? AppLocalizations.of(context)!.regular
+                                : (arg.historyData.isOutStation == 0 &&
+                                        arg.historyData.isRental == false &&
+                                        arg.historyData.goodsType != '-')
+                                    ? AppLocalizations.of(context)!.delivery
+                                    : (arg.historyData.isOutStation == 0 &&
+                                            arg.historyData.isRental == true &&
+                                            arg.historyData.goodsType == '-')
+                                        ? '${AppLocalizations.of(context)!.rental}-${arg.historyData.rentalPackageName}'
+                                        : (arg.historyData.isOutStation == 0 &&
+                                                arg.historyData.isRental ==
+                                                    true &&
+                                                arg.historyData.goodsType !=
+                                                    '-')
+                                            ? '${AppLocalizations.of(context)!.deliveryRental}-${arg.historyData.rentalPackageName}'
+                                            : (arg.historyData.isOutStation ==
+                                                        1 &&
+                                                    arg.historyData.isRental ==
+                                                        false &&
+                                                    arg.historyData.goodsType ==
+                                                        '-')
+                                                ? AppLocalizations.of(context)!
+                                                    .outStation
+                                                : (arg.historyData.isOutStation ==
+                                                            1 &&
+                                                        arg.historyData
+                                                                .isRental ==
+                                                            false &&
+                                                        arg.historyData
+                                                                .goodsType !=
+                                                            '-')
+                                                    ? AppLocalizations.of(
+                                                            context)!
+                                                        .deliveryOutStation
+                                                    : '',
                             textStyle: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: AppColors.greyHintColor,
-                                ),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Theme.of(context).primaryColorDark),
                           ),
                           const SizedBox(height: 6),
 
@@ -133,9 +162,9 @@ class TripVehicleInfoWidget extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   MyText(
-                                    text: (arg.historyData.isRoundTrip
-                                                ?.isNotEmpty ==
-                                            true)
+                                    // text: (arg.historyData.isRoundTrip?.isNotEmpty == true)
+                                    text: (arg.historyData.isOutStation == 1 &&
+                                            arg.historyData.isRoundTrip != '')
                                         ? AppLocalizations.of(context)!
                                             .roundTrip
                                         : AppLocalizations.of(context)!
@@ -149,8 +178,9 @@ class TripVehicleInfoWidget extends StatelessWidget {
                                           color: AppColors.yellowColor,
                                         ),
                                   ),
-                                  if (arg.historyData.isRoundTrip?.isNotEmpty ==
-                                      true)
+                                  // if (arg.historyData.isRoundTrip?.isNotEmpty == true)
+                                  if (arg.historyData.isOutStation == 1 &&
+                                      arg.historyData.isRoundTrip != '')
                                     const Padding(
                                       padding: EdgeInsets.only(left: 4),
                                       child: Icon(

@@ -2261,4 +2261,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get verifyEmailId => 'Verifica tu correo electrónico';
+
+  @override
+  String get pleaseAddAddress => 'Por favor agregue la dirección';
+
+  @override
+  String get verifyEmailText => 'Verificar correo electrónico';
 }

@@ -26,6 +26,7 @@ class ShowStopsWidgets extends StatelessWidget {
               padding: EdgeInsets.all(size.width * 0.05),
               child: Column(
                 children: [
+                  // SizedBox(height: size.width * 0.1),
                   SizedBox(
                     width: size.width * 0.9,
                     child: MyText(

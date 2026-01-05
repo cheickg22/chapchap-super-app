@@ -131,6 +131,9 @@ class _OwnerDashboardState extends State<OwnerDashboard> {
                                 ),
                               ),
                             ),
+                          // if (context.read<AccBloc>().fleetData != null &&
+                          //     context.read<AccBloc>().fleetData!.inactiveFleets !=
+                          //         '0')
                           InkWell(
                             onTap: () {
                               Navigator.pushNamed(

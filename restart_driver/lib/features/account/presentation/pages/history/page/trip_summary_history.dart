@@ -9,6 +9,7 @@ import "package:restart_tagxi/features/account/presentation/pages/support_ticket
 import "../../../../../../core/utils/custom_dialoges.dart";
 import "../../../../../../core/utils/custom_loader.dart";
 import "../../../../../../core/utils/custom_slider/custom_sliderbutton.dart";
+import "../../../../../../core/utils/custom_snack_bar.dart";
 import "../../../../../../core/utils/custom_text.dart";
 import "../../../../../../l10n/app_localizations.dart";
 import "../../../../../home/presentation/pages/home_page/page/home_page.dart";
@@ -115,20 +116,14 @@ class HistoryTripSummaryPage extends StatelessWidget {
                 context.read<AccBloc>().isTicketSheetOpened = false;
               }
             });
+          } else if (state is InvoiceDownloadingState) {
+            CustomLoader.dismiss(context);
           } else if (state is InvoiceDownloadSuccessState) {
-            showDialog(
-              context: context,
-              builder: (_) {
-                return CustomSingleButtonDialoge(
-                  title: AppLocalizations.of(context)!.success,
-                  content: AppLocalizations.of(context)!.invoiceSendContent,
-                  btnName: AppLocalizations.of(context)!.ok,
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            );
+            showToast(message: 'Invoice downloaded successfully!');
+            CustomLoader.dismiss(context);
+          } else if (state is InvoiceDownloadFailureState) {
+            showToast(message: 'Invoice URL not available.');
+            CustomLoader.dismiss(context);
           }
         },
         child: BlocBuilder<AccBloc, AccState>(builder: (context, state) {
@@ -234,8 +229,6 @@ class HistoryTripSummaryPage extends StatelessWidget {
                                           padding:
                                               EdgeInsets.all(size.width * 0.05),
                                           decoration: BoxDecoration(
-                                            // color: Theme.of(context)
-                                            //     .scaffoldBackgroundColor,
                                             border: Border.all(
                                                 width: 1,
                                                 color: AppColors.borderColor),
@@ -387,8 +380,7 @@ class HistoryTripSummaryPage extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : (tripHistoryData.isCompleted == 1 &&
-                                          arg.isSupportTicketEnabled == '1')
+                                  : (tripHistoryData.isCompleted == 1)
                                       ? Column(
                                           children: [
                                             const SizedBox(height: 10),
@@ -404,63 +396,87 @@ class HistoryTripSummaryPage extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 8.0,
-                                                        vertical: 14),
-                                                child: GestureDetector(
-                                                    onDoubleTap: null,
-                                                    onDoubleTapDown: null,
-                                                    onTap: () {
-                                                      context
-                                                          .read<AccBloc>()
-                                                          .add(
-                                                              CreateSupportTicketEvent(
-                                                            requestId:
-                                                                tripHistoryData
-                                                                    .requestNumber,
-                                                            isFromRequest: true,
-                                                            index: arg
-                                                                .historyIndex,
-                                                            pageNumber:
-                                                                arg.pageNumber,
-                                                          ));
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const Icon(
-                                                            Icons
-                                                                .report_outlined,
-                                                            size: 20,
-                                                            color:
-                                                                AppColors.red),
-                                                        SizedBox(
-                                                            width: size.width *
-                                                                0.01),
-                                                        MyText(
-                                                            text: AppLocalizations
-                                                                    .of(
-                                                                        context)!
-                                                                .reportIssue,
-                                                            textStyle: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyMedium!
-                                                                .copyWith(
-                                                                    color:
-                                                                        AppColors
-                                                                            .red,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        13)),
-                                                      ],
-                                                    )),
+                                              child: Column(
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  CustomButton(
+                                                      width: size.width * 0.9,
+                                                      buttonName:
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .downloadInvoice,
+                                                      onTap: () {
+                                                        context
+                                                            .read<AccBloc>()
+                                                            .add(
+                                                              DownloadInvoiceUserEvent(
+                                                                  journeyId:
+                                                                      tripHistoryData
+                                                                          .id
+                                                                          .toString()),
+                                                            );
+                                                      }),
+                                                  if (arg.isSupportTicketEnabled ==
+                                                      '1')
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8.0,
+                                                          vertical: 14),
+                                                      child: GestureDetector(
+                                                          onDoubleTap: null,
+                                                          onDoubleTapDown: null,
+                                                          onTap: () {
+                                                            context
+                                                                .read<AccBloc>()
+                                                                .add(
+                                                                    CreateSupportTicketEvent(
+                                                                  requestId:
+                                                                      tripHistoryData
+                                                                          .requestNumber,
+                                                                  isFromRequest:
+                                                                      true,
+                                                                  index: arg
+                                                                      .historyIndex,
+                                                                  pageNumber: arg
+                                                                      .pageNumber,
+                                                                ));
+                                                          },
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Icon(
+                                                                  Icons
+                                                                      .report_outlined,
+                                                                  size: 20,
+                                                                  color:
+                                                                      AppColors
+                                                                          .red),
+                                                              SizedBox(
+                                                                  width:
+                                                                      size.width *
+                                                                          0.01),
+                                                              MyText(
+                                                                  text: AppLocalizations.of(
+                                                                          context)!
+                                                                      .reportIssue,
+                                                                  textStyle: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium!
+                                                                      .copyWith(
+                                                                          color: AppColors
+                                                                              .red,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              13)),
+                                                            ],
+                                                          )),
+                                                    ),
+                                                ],
                                               ),
                                             ),
                                           ],

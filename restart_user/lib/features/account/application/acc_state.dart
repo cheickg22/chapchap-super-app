@@ -307,8 +307,6 @@ class ClearAttachmentState extends AccState {}
 
 class TicketReplyMessageState extends AccState {}
 
-class InvoiceDownloadSuccessState extends AccState {}
-
 class SosLoadingState extends AccState {}
 
 class SosLoadedState extends AccState {}
@@ -326,3 +324,9 @@ final class ReferralResponseLoadingState extends AccState {}
 final class ReferralResponseSuccessState extends AccState {}
 
 final class ReferralResponseFailureState extends AccState {}
+
+final class InvoiceDownloadSuccessState extends AccState {}
+
+final class InvoiceDownloadFailureState extends AccState {}
+
+final class InvoiceDownloadingState extends AccState {}

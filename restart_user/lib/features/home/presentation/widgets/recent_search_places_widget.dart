@@ -36,6 +36,7 @@ class RecentSearchPlacesWidget extends StatelessWidget {
                         isPickupSelect: false,
                         transportType: 'taxi'));
                   }
+                  // }
                 },
                 child: Row(
                   children: [

@@ -91,6 +91,9 @@ class TicketCard extends StatelessWidget {
                   textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Theme.of(context).primaryColorDark, fontSize: 16),
                 ),
+                // SizedBox(
+                //   height: size.width*0.025,
+                // ),
                 isFromViewPage
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
